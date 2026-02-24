@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 1: Data Acquisition & Exploration</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e11;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --border: #2a2a33;
+    --accent: #ff6b6b; /* Coral theme for Day 1 */
+    --text: #e8e8ee;
+    --muted: #8888a0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
+
+  .carousel-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .slide {
+    min-width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 60px;
+    position: relative;
+    border-right: 1px solid var(--border);
+  }
+
+  .slide-label { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 4px; margin-bottom: 10px; }
+  h2 { font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; text-align: center; margin-bottom: 20px; line-height: 1.1; }
+  h2 span { color: var(--accent); }
+  .slide-content { max-width: 1000px; width: 100%; font-size: 0.95rem; color: var(--muted); line-height: 1.5; }
+
+  .code-block { background: #000; border: 1px solid var(--border); border-radius: 8px; width: 100%; margin: 15px 0; text-align: left; overflow: hidden; }
+  .code-header { background: var(--surface2); padding: 6px 15px; font-family: 'Space Mono', monospace; font-size: 0.6rem; border-bottom: 1px solid var(--border); color: var(--muted); }
+  pre { padding: 15px; font-family: 'Space Mono', monospace; color: #7fff6e; font-size: 0.85rem; overflow-x: auto; white-space: pre-wrap; }
+  
+  .accent-box { background: rgba(255, 107, 107, 0.05); border: 1px solid rgba(255, 107, 107, 0.2); padding: 12px 20px; border-radius: 8px; margin: 10px 0; color: var(--text); }
+  
+  .nav-controls { position: fixed; bottom: 30px; right: 30px; display: flex; gap: 10px; z-index: 100; }
+  .nav-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .progress-indicator { position: fixed; bottom: 30px; left: 30px; font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); }
+
+  ul { list-style: none; text-align: left; }
+  li { margin-bottom: 5px; display: flex; gap: 10px; }
+  li::before { content: "→"; color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="progress-indicator" id="prog-text">Slide 1 / 40</div>
+
+<div class="carousel-container" id="carousel">
+  
+  <section class="slide">
+    <div class="slide-label">Week 2 | Day 1</div>
+    <h2>Data Acquisition & <span>Exploration</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>Data is messy, inconsistent, and often hidden. Today we learn to hunt for it, load it, and reveal its secrets using Python.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">The Mission</div>
+    <h2>Learning <span>Objectives</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>Load data from CSV, JSON, and HTML</li>
+        <li>Identify missing values and outliers</li>
+        <li>Perform Exploratory Data Analysis (EDA)</li>
+        <li>Scrape real-world data with BeautifulSoup</li>
+        <li>Build automated data pipelines</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Chapter 01</div>
+    <h2>Working with <span>Pandas DataFrames</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>The DataFrame is the primary data structure for ML. It is a 2D labeled data structure with columns of potentially different types.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">I/O Operations</div>
+    <h2>Loading <span>Datasets</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <div class="code-header">PYTHON</div>
+        <pre>import pandas as pd
+
+# Standard Load
+df_csv = pd.read_csv('data.csv')
+df_json = pd.read_json('data.json')</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">I/O Operations</div>
+    <h2>Specific <span>Parameters</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>df = pd.read_csv('data.csv', 
+                  delimiter=',',
+                  encoding='utf-8',
+                  dtype={'age': int, 'salary': float},
+                  na_values=['NA', 'N/A', ''])</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Inspection</div>
+    <h2>Shape and <span>Structure</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>print(df.shape)    # (rows, columns)
+print(df.columns)  # Names of features
+print(df.info())   # Data types & memory usage</pre>
+      </div>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Inspection</div>
+    <h2>Head <span>and Tail</span></h2>
+    <div class="slide-content">
+      <p>Always peak at your data to ensure it loaded correctly:</p>
+      <div class="code-block">
+        <pre>df.head(5)   # View top rows
+df.tail(10)  # View bottom rows</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Statistics</div>
+    <h2>Descriptive <span>Summary</span></h2>
+    <div class="slide-content">
+      <p>Get mean, std, min, and max for all numeric columns instantly:</p>
+      <div class="code-block">
+        <pre>print(df.describe())</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Selection</div>
+    <h2>Columns <span>and Rows</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre># Select Column
+ages = df['age']
+
+# Select Multiple
+subset = df[['name', 'age']]</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Logic</div>
+    <h2>Conditional <span>Filtering</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre># Find high earners over 30
+high_earners = df[(df['salary'] > 50000) & (df['age'] > 30)]</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Chapter 02</div>
+    <h2>Exploratory <span>Data Analysis (EDA)</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>EDA is the process of using visualization and statistics to understand the patterns and anomalies in your data before modeling.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Single <span>Variable Analysis</span></h2>
+    <div class="slide-content">
+      <p>Checking the distribution of a single feature:</p>
+      <div class="code-block">
+        <pre>import matplotlib.pyplot as plt
+import seaborn as sns
+
+sns.histplot(df['age'], kde=True)
+plt.show()</pre>
+      </div>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Categorical <span>Distribution</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>print(df['department'].value_counts())
+sns.countplot(x='department', data=df)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Correlation <span>Analysis</span></h2>
+    <div class="slide-content">
+      <p>How do two variables relate? Use a Scatter Plot.</p>
+      <div class="code-block">
+        <pre>sns.scatterplot(x='age', y='salary', data=df)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>The <span>Heatmap</span></h2>
+    <div class="slide-content">
+      <p>Visualizing the correlation matrix of all features:</p>
+      <div class="code-block">
+        <pre>correlation_matrix = df.corr()
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')</pre>
+      </div>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Identifying <span>Outliers</span></h2>
+    <div class="slide-content">
+      <p>Boxplots are essential for spotting data points that fall far outside the norm.</p>
+      <div class="code-block">
+        <pre>sns.boxplot(x=df['salary'])</pre>
+      </div>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>The <span>Null Count</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre># Check total missing per column
+print(df.isnull().sum())</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Preparation</div>
+    <h2>Feature <span>Creation</span></h2>
+    <div class="slide-content">
+      <p>Creating new information from existing columns:</p>
+      <div class="code-block">
+        <pre>df['salary_per_year'] = df['monthly_salary'] * 12</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Working <span>with Dates</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>df['date'] = pd.to_datetime(df['timestamp'])
+df['year'] = df['date'].dt.year</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA Checklist</div>
+    <h2>Is your <span>Data Understood?</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>Distribution of target variable known?</li>
+        <li>Missing values identified?</li>
+        <li>Highly correlated features found?</li>
+        <li>Outliers spotted and explained?</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Chapter 03</div>
+    <h2>Data <span>Cleaning & Handling</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>Garbage In, Garbage Out. Cleaning is 80% of an ML Engineer's work.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Cleaning</div>
+    <h2>Dropping <span>NaNs</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre># Remove any row with a missing value
+df_clean = df.dropna()
+
+# Only drop if specific column is missing
+df_clean = df.dropna(subset=['email'])</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Cleaning</div>
+    <h2>Filling <span>The Gaps</span></h2>
+    <div class="slide-content">
+      <p>Instead of deleting, we can fill missing data with the Mean or Median:</p>
+      <div class="code-block">
+        <pre>df['age'] = df['age'].fillna(df['age'].mean())</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Cleaning</div>
+    <h2>Removing <span>Duplicates</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>print(df.duplicated().sum())
+df = df.drop_duplicates()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Cleaning</div>
+    <h2>Text <span>Standardization</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>df['name'] = df['name'].str.strip().str.title()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Cleaning</div>
+    <h2>Fixing <span>Data Types</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre># Convert object to float
+df['price'] = pd.to_numeric(df['price'], errors='coerce')</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Manipulation</div>
+    <h2>Sorting <span>Data</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>df_sorted = df.sort_values(by='salary', ascending=False)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Aggregation</div>
+    <h2>The <span>GroupBy Operation</span></h2>
+    <div class="slide-content">
+      <p>Summarize data by categories:</p>
+      <div class="code-block">
+        <pre>dept_avg = df.groupby('department')['salary'].mean()</pre>
+      </div>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Aggregation</div>
+    <h2>Multiple <span>Aggregates</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>df.groupby('dept').agg({'salary': 'mean', 'age': 'max'})</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Output</div>
+    <h2>Exporting <span>Results</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>df.to_csv('cleaned_data.csv', index=False)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Chapter 04</div>
+    <h2>Advanced <span>Acquisition: Web Scraping</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>Sometimes data isn't in a file; it's on a webpage. We use BeautifulSoup to extract it.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Scraping</div>
+    <h2>Fetching <span>HTML</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>import requests
+from bs4 import BeautifulSoup
+
+url = 'https://example.com/data'
+response = requests.get(url)
+soup = BeautifulSoup(response.text, 'html.parser')</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Scraping</div>
+    <h2>Finding <span>Tags</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre># Get all headings
+titles = soup.find_all('h2')
+
+# Get element by class
+prices = soup.find_all('span', class_='price-tag')</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Scraping</div>
+    <h2>Scraping <span>Tables</span></h2>
+    <div class="slide-content">
+      <p>Pandas has a shortcut for HTML tables:</p>
+      <div class="code-block">
+        <pre>tables = pd.read_html(url)
+df_from_web = tables[0]</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Important</div>
+    <h2>The <span>Ethics of Scraping</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        Always check <strong>site.com/robots.txt</strong> before scraping. Do not overwhelm servers with too many requests per second.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Architecture</div>
+    <h2>Building <span>Pipelines</span></h2>
+    <div class="slide-content">
+      <p>A pipeline is a series of functions that transform raw data into a model-ready format.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Architecture</div>
+    <h2>The <span>Acquisition Class</span></h2>
+    <div class="slide-content">
+      <div class="code-block" style="max-height: 300px; overflow-y: auto;">
+        <pre>class DataPipeline:
+    def load(self, path):
+        self.df = pd.read_csv(path)
+        return self
+    
+    def clean(self):
+        self.df = self.df.drop_duplicates().dropna()
+        return self
+    
+    def get(self):
+        return self.df</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Architecture</div>
+    <h2>Fluent <span>Interface</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>pipeline = DataPipeline()
+df = pipeline.load('raw.csv').clean().get()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Professionalism</div>
+    <h2>Log <span>Your Progress</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        Always print the shape of your dataframe before and after cleaning. If you go from 10,000 rows to 10 rows, your cleaning logic is too aggressive!
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Day 1 Complete</div>
+    <h2>You Are a <span>Data Hunter</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>Acquisition and Exploration finished. Tomorrow, we move into feature engineering and advanced preprocessing.</p>
+      <div style="margin-top: 30px;">
+        <a href="#" style="color: var(--accent); font-weight: 800; text-decoration: none; border: 1px solid var(--accent); padding: 15px 30px; border-radius: 4px;">START DAY 2 →</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="move(-1)">←</button>
+  <button class="nav-btn" onclick="move(1)">→</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const carousel = document.getElementById('carousel');
+  const progText = document.getElementById('prog-text');
+
+  function move(dir) {
+    currentSlide += dir;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide > slides.length - 1) currentSlide = slides.length - 1;
+    
+    carousel.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    progText.textContent = `Slide ${currentSlide + 1} / ${slides.length}`;
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') move(1);
+    if (e.key === 'ArrowLeft') move(-1);
+  });
+</script>
+
+</body>
+</html>

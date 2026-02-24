@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentation: Python Environment Setup</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e11;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --border: #2a2a33;
+    --accent: #7fff6e; 
+    --accent2: #ffdd57;
+    --accent3: #5ec8ff;
+    --text: #e8e8ee;
+    --muted: #8888a0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
+
+  /* PRESENTATION ENGINE */
+  .carousel-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .slide {
+    min-width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 80px;
+    position: relative;
+    border-right: 1px solid var(--border);
+  }
+
+  /* SLIDE UI */
+  .slide-label { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 4px; margin-bottom: 20px; }
+  h1, h2 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.1; text-align: center; margin-bottom: 24px; }
+  h1 span, h2 span { color: var(--accent); }
+  .slide-content { max-width: 900px; width: 100%; font-size: 1.05rem; color: var(--muted); text-align: center; line-height: 1.6; }
+
+  /* BOXES & CARDS */
+  .code-block { background: #000; border: 1px solid var(--border); border-radius: 8px; width: 100%; max-width: 700px; margin: 20px auto; text-align: left; overflow: hidden; }
+  .code-header { background: var(--surface2); padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 0.65rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; color: var(--muted); }
+  pre { padding: 20px; font-family: 'Space Mono', monospace; color: var(--accent3); font-size: 0.9rem; line-height: 1.4; overflow-x: auto; }
+  .accent-box { background: rgba(127, 255, 110, 0.05); border: 1px solid rgba(127, 255, 110, 0.2); padding: 15px 20px; border-radius: 8px; margin: 10px 0; color: var(--text); text-align: left; font-size: 0.95rem; }
+  
+  /* NAV UI */
+  .nav-controls { position: fixed; bottom: 30px; right: 30px; display: flex; gap: 10px; z-index: 100; }
+  .nav-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .progress-indicator { position: fixed; bottom: 30px; left: 30px; font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--muted); }
+
+  ul { list-style: none; text-align: left; display: inline-block; }
+  li { margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
+  li::before { content: "→"; color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="progress-indicator" id="prog-text">Slide 1 / 20</div>
+
+<div class="carousel-container" id="carousel">
+  
+  <section class="slide">
+    <div class="slide-label">Module 01</div>
+    <h1>Python <span>Environment Setup</span></h1>
+    <div class="slide-content">
+      <p>Your journey into Machine Learning begins with a stable foundation. We will configure Python 3.10+, manage dependencies, and fix common errors.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Preparation</div>
+    <h2>Core <span>Prerequisites</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>Python 3.10 or higher (3.11 recommended)</li>
+        <li>Administrator access to your machine</li>
+        <li>Stable internet connection</li>
+        <li>A terminal (CMD, PowerShell, or Bash)</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Installation: OS</div>
+    <h2>Windows <span>Setup</span></h2>
+    <div class="slide-content">
+      <p>Download the installer from <strong>python.org</strong>. <br><strong>CRITICAL:</strong> Check the box "Add Python to PATH" during installation.</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Installation: OS</div>
+    <h2>macOS <span>Setup</span></h2>
+    <div class="slide-content">
+      <p>Use Homebrew for the cleanest management:</p>
+      <div class="code-block">
+        <div class="code-header">TERMINAL</div>
+        <pre>brew install python@3.11</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Verification</div>
+    <h2>Testing <span>The Install</span></h2>
+    <div class="slide-content">
+      <p>Run these commands to ensure everything is working correctly:</p>
+      <div class="code-block">
+        <div class="code-header">TERMINAL</div>
+        <pre>python --version
+pip --version</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Management</div>
+    <h2>Virtual <span>Environments</span></h2>
+    <div class="slide-content">
+      <p>Why use <code>venv</code>? It prevents "Dependency Hell"—where different projects require conflicting versions of the same library.</p>
+      [Image showing isolated python virtual environments vs a messy global environment]
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Workflow</div>
+    <h2>Create <span>The Environment</span></h2>
+    <div class="slide-content">
+      <p>Navigate to your project folder and run:</p>
+      <div class="code-block">
+        <div class="code-header">TERMINAL</div>
+        <pre>python -m venv ml_internship</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Activation</div>
+    <h2>Activating <span>on Windows</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <div class="code-header">CMD / POWERSHELL</div>
+        <pre>.\ml_internship\Scripts\activate</pre>
+      </div>
+      <p>You should see <code>(ml_internship)</code> appear in your terminal prompt.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Activation</div>
+    <h2>Activating <span>on macOS/Linux</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <div class="code-header">BASH / ZSH</div>
+        <pre>source ml_internship/bin/activate</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Package Management</div>
+    <h2>The <span>PIP Workflow</span></h2>
+    <div class="slide-content">
+      <p>PIP installs libraries from the Python Package Index (PyPI).</p>
+      <div class="code-block">
+        <div class="code-header">TERMINAL</div>
+        <pre>pip install numpy pandas
+pip list # See what is installed</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Best Practices</div>
+    <h2>Requirements <span>Files</span></h2>
+    <div class="slide-content">
+      <p>Standardize your environment across different machines:</p>
+      <div class="code-block">
+        <div class="code-header">TERMINAL</div>
+        <pre>pip freeze > requirements.txt
+pip install -r requirements.txt</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Troubleshooting</div>
+    <h2>When <span>Things Break</span></h2>
+    <div class="slide-content">
+      <p>Environment errors are the #1 hurdle for beginners. Let's solve the common ones.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Error 01</div>
+    <h2>"Python is <span>not recognized</span>"</h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        <strong>Cause:</strong> Python was not added to your System PATH during installation.
+      </div>
+      <p><strong>Fix:</strong> Re-run the installer, choose "Modify," and ensure "Add to Environment Variables" is checked.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Error 02</div>
+    <h2>"Permission <span>Denied</span>"</h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        <strong>Fix for Windows:</strong> Run PowerShell as Administrator.<br>
+        <strong>Fix for macOS/Linux:</strong> Use virtual environments (avoid <code>sudo pip</code>).
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Error 03</div>
+    <h2>"ModuleNotFound<span>Error</span>"</h2>
+    <div class="slide-content">
+      <p>This happens if you install a library globally but try to run it inside a virtual environment (or vice versa).</p>
+      <div class="accent-box"><strong>Fix:</strong> Activate your venv FIRST, then run <code>pip install</code>.</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">IDE Config</div>
+    <h2>Linking <span>to IDEs</span></h2>
+    <div class="slide-content">
+      <p>Visual Studio Code and PyCharm need to be told to use your <code>ml_internship</code> folder as the "Python Interpreter."</p>
+      [Image showing VS Code python interpreter selection menu]
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Maintenance</div>
+    <h2>Leaving <span>The Environment</span></h2>
+    <div class="slide-content">
+      <p>When you are finished working, simply run:</p>
+      <div class="code-block">
+        <pre>deactivate</pre>
+      </div>
+      <p>This returns you to your global system Python.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Verification</div>
+    <h2>Final <span>Checklist</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>Python 3.10+ Installed</li>
+        <li>Virtual Environment Created</li>
+        <li><code>pip install</code> works without errors</li>
+        <li>Environment activated successfully</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Pro Tip</div>
+    <h2>Use <span>.gitignore</span></h2>
+    <div class="slide-content">
+      <p>NEVER upload your <code>venv</code> folder to GitHub. It is too large and specific to your machine.</p>
+      <div class="accent-box">Add <code>venv/</code> or <code>ml_internship/</code> to your <strong>.gitignore</strong> file.</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Complete</div>
+    <h1>Ready for <span>Part 2</span></h1>
+    <div class="slide-content">
+      <p>Environment set. Foundations laid. Next, we master Version Control with Git & GitHub.</p>
+      <div style="margin-top: 30px;">
+        <a href="#" style="color: var(--accent); font-weight: 800; text-decoration: none; border: 1px solid var(--accent); padding: 15px 30px; border-radius: 4px;">START PART 2 →</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="move(-1)">←</button>
+  <button class="nav-btn" onclick="move(1)">→</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const carousel = document.getElementById('carousel');
+  const progText = document.getElementById('prog-text');
+
+  function move(dir) {
+    currentSlide += dir;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide > slides.length - 1) currentSlide = slides.length - 1;
+    
+    carousel.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    progText.textContent = `Slide ${currentSlide + 1} / ${slides.length}`;
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') move(1);
+    if (e.key === 'ArrowLeft') move(-1);
+  });
+</script>
+
+</body>
+</html>

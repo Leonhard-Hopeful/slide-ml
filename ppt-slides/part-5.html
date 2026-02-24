@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentation: Data Sources & Resources</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e11;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --border: #2a2a33;
+    --accent: #ffdd57; /* Yellow theme for Part 5 */
+    --accent2: #7fff6e;
+    --accent3: #5ec8ff;
+    --text: #e8e8ee;
+    --muted: #8888a0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
+
+  .carousel-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .slide {
+    min-width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 80px;
+    position: relative;
+    border-right: 1px solid var(--border);
+  }
+
+  .slide-label { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 4px; margin-bottom: 20px; }
+  h1, h2 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.1; text-align: center; margin-bottom: 24px; }
+  h1 span, h2 span { color: var(--accent); }
+  .slide-content { max-width: 900px; width: 100%; font-size: 1.05rem; color: var(--muted); text-align: center; line-height: 1.6; }
+
+  .code-block { background: #000; border: 1px solid var(--border); border-radius: 8px; width: 100%; max-width: 750px; margin: 20px auto; text-align: left; overflow: hidden; }
+  .code-header { background: var(--surface2); padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 0.65rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; color: var(--muted); }
+  pre { padding: 20px; font-family: 'Space Mono', monospace; color: #c9c9e0; font-size: 0.85rem; line-height: 1.4; overflow-x: auto; }
+  
+  .accent-box { background: rgba(255, 221, 87, 0.05); border: 1px solid rgba(255, 221, 87, 0.2); padding: 15px 20px; border-radius: 8px; margin: 10px 0; color: var(--text); text-align: left; }
+  
+  .nav-controls { position: fixed; bottom: 30px; right: 30px; display: flex; gap: 10px; z-index: 100; }
+  .nav-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .progress-indicator { position: fixed; bottom: 30px; left: 30px; font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--muted); }
+
+  ul { list-style: none; text-align: left; display: inline-block; }
+  li { margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
+  li::before { content: "→"; color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="progress-indicator" id="prog-text">Slide 1 / 20</div>
+
+<div class="carousel-container" id="carousel">
+  
+  <section class="slide">
+    <div class="slide-label">Module 05</div>
+    <h1>Data & <span>Learning Assets</span></h1>
+    <div class="slide-content">
+      <p>Data is the fuel for Machine Learning. Today we learn how to source high-quality datasets and where to turn when you need to deepen your knowledge.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Overview</div>
+    <h2>Finding the <span>Fuel</span></h2>
+    <div class="slide-content">
+      <p>A great ML engineer knows that data doesn't just "appear." You must know where to find public repositories and how to handle different file formats.</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Sources</div>
+    <h2>Kaggle: The <span>ML Home</span></h2>
+    <div class="slide-content">
+      <p>The world's largest data science community. Thousands of free datasets and competitions to test your skills.</p>
+      <div class="accent-box">
+        <strong>Pro Tip:</strong> Look for "Silver" or "Gold" medal datasets; they usually have the best documentation.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Sources</div>
+    <h2>Kaggle via <span>Terminal</span></h2>
+    <div class="slide-content">
+      <p>You can download datasets directly to your project using the command line:</p>
+      <div class="code-block">
+        <div class="code-header">BASH</div>
+        <pre>pip install kaggle
+kaggle datasets download -d username/dataset-name</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Sources</div>
+    <h2>Google <span>Dataset Search</span></h2>
+    <div class="slide-content">
+      <p>Think of it as "Google for Data." It aggregates datasets from across the web, including government portals and universities.</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Sources</div>
+    <h2>UCI <span>ML Repository</span></h2>
+    <div class="slide-content">
+      <p>The "Old Faithful" of the ML world. Home to classic datasets like Iris and Wine, perfect for testing your first algorithms.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Data Formats</div>
+    <h2>The <span>CSV Standard</span></h2>
+    <div class="slide-content">
+      <p>Comma-Separated Values are the most common format. Pandas makes loading them a one-liner:</p>
+      <div class="code-block">
+        <pre>import pandas as pd
+df = pd.read_csv('filename.csv')</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Data Formats</div>
+    <h2>JSON for <span>Web Data</span></h2>
+    <div class="slide-content">
+      <p>Common for APIs and nested data. Pandas can flatten these structures for you:</p>
+      <div class="code-block">
+        <pre>df = pd.read_json('data.json')</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Data Formats</div>
+    <h2>Excel & <span>Python</span></h2>
+    <div class="slide-content">
+      <p>Many business datasets live in .xlsx files. You can load specific sheets directly:</p>
+      <div class="code-block">
+        <pre>df = pd.read_excel('sales.xlsx', sheet_name='Q4')</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Learning</div>
+    <h2>Where to <span>Go Deeper</span></h2>
+    <div class="slide-content">
+      <p>To master the theory behind the code, we recommend these industry-standard resources.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Learning</div>
+    <h2>Andrew Ng's <span>Courses</span></h2>
+    <div class="slide-content">
+      <p>Coursera's Machine Learning Specialization. If you want to understand the "Why" behind the "How," start here.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Learning</div>
+    <h2>Fast.ai <span>Approach</span></h2>
+    <div class="slide-content">
+      <p>A "top-down" approach. They teach you how to build a state-of-the-art model first, then explain the math later.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visual Learning</div>
+    <h2>The <span>ML YouTube Stack</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>3Blue1Brown:</strong> Visualizing Neural Networks.</li>
+        <li><strong>StatQuest:</strong> Breaking down complex stats into simple bits.</li>
+        <li><strong>Sentdex:</strong> Practical Python ML coding.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Knowledge</div>
+    <h2>Papers <span>With Code</span></h2>
+    <div class="slide-content">
+      <p>A unique resource that links the latest research papers with their actual GitHub implementation. Essential for staying on the cutting edge.</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Support</div>
+    <h2>Join the <span>Conversation</span></h2>
+    <div class="slide-content">
+      <p>Don't code in a vacuum. Connect with other engineers to solve problems faster.</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div class="accent-box"><strong>Reddit:</strong> r/MachineLearning</div>
+        <div class="accent-box"><strong>Discord:</strong> ML Collective</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Support</div>
+    <h2>The <span>Engineer's Lifeline</span></h2>
+    <div class="slide-content">
+      <p>90% of the errors you face have already been solved on Stack Overflow. Learn to search effectively using library tags like [pandas] or [scikit-learn].</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Career</div>
+    <h2>Share <span>Your Work</span></h2>
+    <div class="slide-content">
+      <p>Every dataset you explore and every notebook you create should go to <strong>GitHub</strong>. This is your professional resume.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Verification</div>
+    <h2>Final <span>Checklist</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>[ ] Bookmarked Kaggle & UCI</li>
+        <li>[ ] Successfully loaded a CSV and JSON</li>
+        <li>[ ] Joined one ML community</li>
+        <li>[ ] Subscribed to 1 learning channel</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Pro Tip</div>
+    <h2>Quality <span>Over Quantity</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        It is better to have <strong>one</strong> project with a perfectly cleaned dataset and deep insights than <strong>ten</strong> projects that just copy-paste tutorial code.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Phase 0 Complete</div>
+    <h1>The Journey <span>Begins</span></h1>
+    <div class="slide-content">
+      <p>You have the environment, the version control, the tools, and the data sources. Setup is over.</p>
+      <div style="margin-top: 30px;">
+        <a href="#" style="color: var(--accent); font-weight: 800; text-decoration: none; border: 1px solid var(--accent); padding: 15px 30px; border-radius: 4px;">PROCEED TO CHAPTER 1 →</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="move(-1)">←</button>
+  <button class="nav-btn" onclick="move(1)">→</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const carousel = document.getElementById('carousel');
+  const progText = document.getElementById('prog-text');
+
+  function move(dir) {
+    currentSlide += dir;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide > slides.length - 1) currentSlide = slides.length - 1;
+    
+    carousel.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    progText.textContent = `Slide ${currentSlide + 1} / ${slides.length}`;
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') move(1);
+    if (e.key === 'ArrowLeft') move(-1);
+  });
+</script>
+
+</body>
+</html>

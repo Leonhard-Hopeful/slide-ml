@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentation: Git & GitHub Mastery</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e11;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --border: #2a2a33;
+    --accent: #7fff6e; 
+    --accent2: #ffdd57;
+    --accent3: #5ec8ff;
+    --text: #e8e8ee;
+    --muted: #8888a0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html { 
+    height: 100%; 
+    overflow: hidden; 
+    background: var(--bg); 
+    color: var(--text); 
+    font-family: 'Syne', sans-serif; 
+  }
+
+  /* Carousel Logic */
+  .carousel-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    transition: transform 0.7s cubic-bezier(0.85, 0, 0.15, 1);
+  }
+
+  .slide {
+    min-width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+    position: relative;
+    border-right: 1px solid var(--border);
+  }
+
+  .slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(127,255,110,0.03) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .slide-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+  }
+
+  h1, h2 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  h1 span, h2 span { color: var(--accent); }
+  
+  .slide-content {
+    max-width: 900px;
+    width: 100%;
+    font-size: 1.1rem;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .code-block {
+    background: #000;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 750px;
+    margin: 30px auto;
+    text-align: left;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  }
+
+  .code-header {
+    background: var(--surface2);
+    padding: 10px 20px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  pre {
+    padding: 25px;
+    font-family: 'Space Mono', monospace;
+    color: var(--accent3);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    overflow-x: auto;
+  }
+
+  .nav-controls {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    display: flex;
+    gap: 15px;
+    z-index: 100;
+  }
+
+  .nav-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s;
+  }
+
+  .nav-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-5px);
+  }
+
+  .progress-indicator {
+    position: fixed;
+    bottom: 40px;
+    left: 40px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .accent-box {
+    background: rgba(127, 255, 110, 0.05);
+    border: 1px solid rgba(127, 255, 110, 0.2);
+    padding: 20px;
+    border-radius: 8px;
+    margin: 15px 0;
+    color: var(--text);
+    text-align: left;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="progress-indicator" id="prog-text">Slide 1 / 7</div>
+
+<div class="carousel-container" id="carousel">
+  
+  <section class="slide">
+    <div class="slide-label">Introduction</div>
+    <h1>Git: The <span>Project Tracker</span></h1>
+    <div class="slide-content">
+      <p>A decentralized version control system that tracks every change made to your files. It allows you to travel back in time to previous versions of your project.</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Setup</div>
+    <h2>Identify <span>Yourself</span></h2>
+    <div class="slide-content">
+      <p>Before you start, Git needs to know who is making the changes. This information is saved in your project history.</p>
+      <div class="code-block">
+        <div class="code-header">TERMINAL</div>
+        <pre>git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+
+# To check your settings:
+git config --list</pre>
+      </div>
+      <div class="accent-box">
+        <strong>Tip:</strong> The <code>--global</code> flag ensures these settings apply to all repositories on your computer.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Concepts</div>
+    <h2>The <span>Three Stages</span></h2>
+    <div class="slide-content">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+        <div class="accent-box">
+          <strong style="color: var(--accent3)">1. Working Dir</strong><br><small>Your local folder where files exist.</small>
+        </div>
+        <div class="accent-box">
+          <strong style="color: var(--accent2)">2. Staging (Index)</strong><br><small>The review section for unpublished work.</small>
+        </div>
+        <div class="accent-box">
+          <strong style="color: var(--accent)">3. Repository</strong><br><small>The final database of saved snapshots.</small>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Deployment</div>
+    <h2>Pushing: <span>The First Time</span></h2>
+    <div class="slide-content">
+      <p>Use these commands to link your local code to a brand new GitHub repository.</p>
+      <div class="code-block">
+        <div class="code-header">TERMINAL</div>
+        <pre>cd path/to/your/project
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/yourusername/repository-name.git
+git push -u origin main</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Workflow</div>
+    <h2>Pushing: <span>Subsequent Updates</span></h2>
+    <div class="slide-content">
+      <p>After the first time, your update loop is fast and simple.</p>
+      <div class="code-block">
+        <div class="code-header">TERMINAL</div>
+        <pre>git add .
+git commit -m "Initial commit"
+git push</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Collaboration</div>
+    <h2>Cloning & <span>Contributing</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <div class="code-header">TERMINAL</div>
+        <pre>git clone &lt;repository-url&gt;
+cd &lt;repository-folder&gt;
+git branch -a
+git checkout -b my-feature-branch</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Advanced Flow</div>
+    <h2>Sync & <span>Pull Requests</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <div class="code-header">TERMINAL</div>
+        <pre>git pull --rebase origin &lt;branch-name&gt;
+# Edit files...
+git add .
+git commit -m "Describe your changes"
+git push origin my-feature-branch</pre>
+      </div>
+      <p>Finally: Open a <strong>Pull Request</strong> on GitHub to merge your work.</p>
+      <div class="accent-box">
+        <strong>Workflow:</strong> Always <code>pull --rebase</code> during development to stay updated with the main team.
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="move(-1)">←</button>
+  <button class="nav-btn" onclick="move(1)">→</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const carousel = document.getElementById('carousel');
+  const progText = document.getElementById('prog-text');
+
+  function move(dir) {
+    currentSlide += dir;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide > slides.length - 1) currentSlide = slides.length - 1;
+    
+    carousel.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    progText.textContent = `Slide ${currentSlide + 1} / ${slides.length}`;
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') move(1);
+    if (e.key === 'ArrowLeft') move(-1);
+  });
+</script>
+
+</body>
+</html>

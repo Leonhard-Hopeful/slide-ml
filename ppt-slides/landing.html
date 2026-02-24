@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phase 0: The ML Foundation</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e11;
+    --surface: #16161a;
+    --border: #2a2a33;
+    --accent-green: #7fff6e;
+    --accent-blue: #5ec8ff;
+    --accent-yellow: #ffdd57;
+    --text: #e8e8ee;
+    --muted: #8888a0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { 
+    background: var(--bg); 
+    color: var(--text); 
+    font-family: 'Syne', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Grid Background Effect */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+    opacity: 0.15;
+    z-index: -1;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 80px 20px; }
+
+  header { text-align: center; margin-bottom: 80px; }
+  .phase-badge { 
+    font-family: 'Space Mono', monospace; 
+    color: var(--accent-green); 
+    border: 1px solid var(--accent-green);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; margin-top: 20px; line-height: 1; }
+  h1 span { color: var(--accent-green); }
+  .subtitle { color: var(--muted); max-width: 600px; margin: 20px auto; font-size: 1.2rem; }
+
+  /* Module Grid */
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 60px;
+  }
+
+  .module-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 40px;
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .module-card:hover {
+    border-color: var(--accent-green);
+    transform: translateY(-10px);
+    background: #1c1c21;
+  }
+
+  .module-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .module-card h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: 15px; }
+  .module-card p { color: var(--muted); font-size: 0.95rem; margin-bottom: 30px; flex-grow: 1; }
+
+  .status-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent-green);
+  }
+
+  /* Specific theme colors for cards */
+  .card-p1:hover { border-color: var(--accent-green); }
+  .card-p2:hover { border-color: var(--accent-green); }
+  .card-p3:hover { border-color: var(--accent-blue); }
+  .card-p4:hover { border-color: var(--accent-yellow); }
+  .card-p5:hover { border-color: var(--accent-yellow); }
+
+  .footer-cta {
+    margin-top: 100px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    padding-top: 60px;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--accent-green);
+    color: #000;
+    padding: 18px 40px;
+    border-radius: 4px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: transform 0.2s;
+  }
+
+  .btn-primary:hover { transform: scale(1.05); }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <span class="phase-badge">Phase 00</span>
+    <h1>The <span>Foundation</span></h1>
+    <p class="subtitle">Complete these 5 modules to prepare your machine and your mind for the ML Internship. Zero to Ready.</p>
+  </header>
+
+  <div class="module-grid">
+    
+    <a href="part-1-python-environment.html" class="module-card card-p1">
+      <div class="module-num">MODULE 01</div>
+      <h3>Python Environment</h3>
+      <p>Configure Python 3.10+, master virtual environments (venv), and eliminate installation errors.</p>
+      <div class="status-tag">● READY TO START</div>
+    </a>
+
+    <a href="part-2.html" class="module-card card-p2">
+      <div class="module-num">MODULE 02</div>
+      <h3>Git & GitHub</h3>
+      <p>Master version control, repository configuration, and the professional "Push/Pull" workflow.</p>
+      <div class="status-tag">● READY TO START</div>
+    </a>
+
+    <a href="part3-jupyter-ides.html" class="module-card card-p3">
+      <div class="module-num">MODULE 03</div>
+      <h3>Jupyter & IDEs</h3>
+      <p>Setting up VS Code and Jupyter Notebooks for interactive data exploration and modeling.</p>
+      <div class="status-tag">● READY TO START</div>
+    </a>
+
+    <a href="part-4.html" class="module-card card-p4">
+      <div class="module-num">MODULE 04</div>
+      <h3>ML Libraries</h3>
+      <p>A deep dive into the "Big Four": NumPy, Pandas, Scikit-Learn, and Matplotlib.</p>
+      <div class="status-tag">● READY TO START</div>
+    </a>
+
+    <a href="part-5.html" class="module-card card-p5">
+      <div class="module-num">MODULE 05</div>
+      <h3>Data & Resources</h3>
+      <p>Where to find datasets (Kaggle/UCI) and how to continue your self-learning journey.</p>
+      <div class="status-tag">● READY TO START</div>
+    </a>
+
+  </div>
+
+  <div class="footer-cta">
+    <h2 style="margin-bottom: 20px;">Ready to begin the journey?</h2>
+    <p style="color: var(--muted); margin-bottom: 40px;">Once you've finished all 5 modules, your machine will be a fully-equipped ML workstation.</p>
+    <a href="part-1-python-environment.html" class="btn-primary">START MODULE 01</a>
+  </div>
+</div>
+
+</body>
+</html>

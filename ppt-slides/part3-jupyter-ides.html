@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentation: Jupyter & IDE Mastery</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e11;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --border: #2a2a33;
+    --accent: #5ec8ff; /* Blue theme for Part 3 */
+    --accent2: #ffdd57;
+    --text: #e8e8ee;
+    --muted: #8888a0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
+
+  .carousel-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .slide {
+    min-width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 80px;
+    position: relative;
+    border-right: 1px solid var(--border);
+  }
+
+  .slide-label { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 4px; margin-bottom: 20px; }
+  h1, h2 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800; line-height: 1.1; text-align: center; margin-bottom: 24px; }
+  h1 span, h2 span { color: var(--accent); }
+  .slide-content { max-width: 900px; width: 100%; font-size: 1.05rem; color: var(--muted); text-align: center; line-height: 1.6; }
+
+  .code-block { background: #000; border: 1px solid var(--border); border-radius: 8px; width: 100%; max-width: 700px; margin: 20px auto; text-align: left; overflow: hidden; }
+  .code-header { background: var(--surface2); padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 0.65rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; color: var(--muted); }
+  pre { padding: 20px; font-family: 'Space Mono', monospace; color: var(--accent); font-size: 0.9rem; line-height: 1.4; }
+  
+  .accent-box { background: rgba(94, 200, 255, 0.05); border: 1px solid rgba(94, 200, 255, 0.2); padding: 15px 20px; border-radius: 8px; margin: 10px 0; color: var(--text); text-align: left; }
+  
+  .nav-controls { position: fixed; bottom: 30px; right: 30px; display: flex; gap: 10px; z-index: 100; }
+  .nav-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .progress-indicator { position: fixed; bottom: 30px; left: 30px; font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--muted); }
+
+  ul { list-style: none; text-align: left; display: inline-block; }
+  li { margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px; }
+  li::before { content: "→"; color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="progress-indicator" id="prog-text">Slide 1 / 20</div>
+
+<div class="carousel-container" id="carousel">
+  
+  <section class="slide">
+    <div class="slide-label">Module 03</div>
+    <h1>Jupyter & <span>Modern IDEs</span></h1>
+    <div class="slide-content">
+      <p>Data science is experimental. Traditional scripts aren't enough. Today we master <strong>Interactive Computing</strong> and professional development environments.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">The Concept</div>
+    <h2>Why <span>Notebooks?</span></h2>
+    <div class="slide-content">
+      <p>Notebooks allow you to combine <strong>Live Code</strong>, <strong>Visualizations</strong>, and <strong>Markdown</strong> in a single document (.ipynb).</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Environment Choice</div>
+    <h2>The <span>Dual Path</span></h2>
+    <div class="slide-content">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="accent-box">
+          <strong>VS Code:</strong> Best for full projects, debugging, and git integration.
+        </div>
+        <div class="accent-box">
+          <strong>Jupyter Lab:</strong> Best for pure data exploration and lightweight research.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Setup</div>
+    <h2>Configuring <span>VS Code</span></h2>
+    <div class="slide-content">
+      <p>Install the <strong>Jupyter Extension</strong> from the Marketplace. This allows VS Code to render .ipynb files natively.</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">First Steps</div>
+    <h2>Creating <span>.ipynb</span></h2>
+    <div class="slide-content">
+      <p>In your terminal or IDE, create a new file named <code>experiment.ipynb</code>. VS Code will automatically open the notebook interface.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Configuration</div>
+    <h2>Selecting the <span>Kernel</span></h2>
+    <div class="slide-content">
+      <p>Look at the top-right corner. Click "Select Kernel" and choose your <code>ml_internship</code> environment created in Part 1.</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Basics</div>
+    <h2>Code vs <span>Markdown</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Code Cells:</strong> Executable Python logic.</li>
+        <li><strong>Markdown Cells:</strong> Documentation, headers, and math equations (LaTeX).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Workflow</div>
+    <h2>The <span>Execution Order</span></h2>
+    <div class="slide-content">
+      <p>Notebooks are stateful. If you run cell 2 before cell 1, variables defined in cell 1 will be missing. Always track the <strong>In [n]</strong> number.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Shortcuts</div>
+    <h2>Running <span>Cells</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        <code>Shift + Enter</code> : Run cell and move to next.<br>
+        <code>Ctrl + Enter</code> : Run cell and stay on current.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Shortcuts</div>
+    <h2>Command <span>Mode</span></h2>
+    <div class="slide-content">
+      <p>Press <code>Esc</code> to enter Command Mode, then use:</p>
+      <ul>
+        <li><code>A</code> : Insert cell Above</li>
+        <li><code>B</code> : Insert cell Below</li>
+        <li><code>D, D</code> : Delete cell</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Jupyter Magics</div>
+    <h2>Timing <span>Code</span></h2>
+    <div class="slide-content">
+      <p>Use <code>%%time</code> at the top of a cell to see how long your ML model takes to train.</p>
+      <div class="code-block">
+        <pre>%%time
+# Some heavy ML training here
+model.fit(X, y)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visualization</div>
+    <h2>Inline <span>Plots</span></h2>
+    <div class="slide-content">
+      <p>Notebooks render charts directly below the code. No need to save images to disk to view them.</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Productivity</div>
+    <h2>Terminal <span>Access</span></h2>
+    <div class="slide-content">
+      <p>You can run terminal commands inside a notebook by prefixing them with <code>!</code>.</p>
+      <div class="code-block">
+        <pre>!pip install seaborn
+!ls -lh</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Troubleshooting</div>
+    <h2>The <span>"Panic" Button</span></h2>
+    <div class="slide-content">
+      <p>If your code loops infinitely or memory fills up, use <strong>Restart Kernel</strong>. This clears all variables but keeps your code.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Cloud Options</div>
+    <h2>Google <span>Colab</span></h2>
+    <div class="slide-content">
+      <p>Zero-setup cloud notebooks. Includes free access to <strong>GPUs</strong> (critical for Part 4/Deep Learning).</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">IDE Powerups</div>
+    <h2>The <span>ML Stack</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Pylance:</strong> Type checking and auto-completion.</li>
+        <li><strong>Python Indent:</strong> Automatic formatting.</li>
+        <li><strong>Data Wrangler:</strong> Visual data cleaning (Built into VS Code).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Debugging</div>
+    <h2>The <span>Variable View</span></h2>
+    <div class="slide-content">
+      <p>In VS Code, click the "Variables" button in the top toolbar to see all active DataFrames and arrays in memory.</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Checklist</div>
+    <h2>Module <span>Validation</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>[ ] .ipynb file created</li>
+        <li>[ ] <code>ml_internship</code> kernel connected</li>
+        <li>[ ] Successfully ran a "Hello World" cell</li>
+        <li>[ ] Mastered <code>Shift + Enter</code></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Pro Tip</div>
+    <h2>Notebook <span>Cleanliness</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        <strong>Rule:</strong> Before sharing a notebook, run "Restart & Run All" to ensure your results are reproducible from start to finish.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Complete</div>
+    <h1>Ready for <span>Libraries</span></h1>
+    <div class="slide-content">
+      <p>Now that your workbench is ready, it's time to learn the tools. Moving to <strong>Part 4: ML Libraries</strong>.</p>
+      <div style="margin-top: 30px;">
+        <a href="#" style="color: var(--accent); font-weight: 800; text-decoration: none; border: 1px solid var(--accent); padding: 15px 30px; border-radius: 4px;">START PART 4 →</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="move(-1)">←</button>
+  <button class="nav-btn" onclick="move(1)">→</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const carousel = document.getElementById('carousel');
+  const progText = document.getElementById('prog-text');
+
+  function move(dir) {
+    currentSlide += dir;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide > slides.length - 1) currentSlide = slides.length - 1;
+    
+    carousel.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    progText.textContent = `Slide ${currentSlide + 1} / ${slides.length}`;
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') move(1);
+    if (e.key === 'ArrowLeft') move(-1);
+  });
+</script>
+
+</body>
+</html>
