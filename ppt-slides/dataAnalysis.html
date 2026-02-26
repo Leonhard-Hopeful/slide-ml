@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentation: Data Analysis Mastery</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e11;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --border: #2a2a33;
+    --accent: #5ec8ff; /* Blue theme for the Mastery Guide */
+    --code-color: #7fff6e;
+    --text: #e8e8ee;
+    --muted: #8888a0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
+
+  .carousel-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .slide {
+    min-width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 60px;
+    position: relative;
+    border-right: 1px solid var(--border);
+  }
+
+  .slide-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 4px; margin-bottom: 10px; }
+  h2 { font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 800; text-align: center; margin-bottom: 15px; line-height: 1.1; }
+  h2 span { color: var(--accent); }
+  .slide-content { max-width: 1000px; width: 100%; font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+
+  .code-block { background: #000; border: 1px solid var(--border); border-radius: 8px; width: 100%; margin: 10px 0; text-align: left; overflow: hidden; }
+  .code-header { background: var(--surface2); padding: 5px 15px; font-family: 'Space Mono', monospace; font-size: 0.6rem; border-bottom: 1px solid var(--border); color: var(--muted); }
+  pre { padding: 12px; font-family: 'Space Mono', monospace; color: var(--code-color); font-size: 0.8rem; overflow-x: auto; white-space: pre-wrap; }
+  
+  .accent-box { background: rgba(94, 200, 255, 0.05); border: 1px solid rgba(94, 200, 255, 0.2); padding: 12px 18px; border-radius: 8px; margin: 8px 0; color: var(--text); }
+  
+  .nav-controls { position: fixed; bottom: 30px; right: 30px; display: flex; gap: 10px; z-index: 100; }
+  .nav-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .progress-indicator { position: fixed; bottom: 30px; left: 30px; font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); }
+
+  ul { list-style: none; text-align: left; }
+  li { margin-bottom: 4px; display: flex; gap: 8px; }
+  li::before { content: "•"; color: var(--accent); }
+  
+  .comparison-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.8rem; }
+  .comparison-table th { background: var(--surface2); color: var(--accent); text-align: left; padding: 8px; border: 1px solid var(--border); }
+  .comparison-table td { padding: 8px; border: 1px solid var(--border); color: var(--text); }
+</style>
+</head>
+<body>
+
+<div class="progress-indicator" id="prog-text">Slide 1 / 50</div>
+
+<div class="carousel-container" id="carousel">
+  
+  <section class="slide">
+    <div class="slide-label">Industry Standard Guide</div>
+    <h2>Data Analysis <span>Mastery</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>A Comprehensive Guide from Data Acquisition to Stakeholder Communication.</p>
+      <p style="margin-top: 20px; font-size: 0.8rem; color: var(--accent);">WRITTEN BY A SENIOR DATA ANALYST (GOOGLE)</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Introduction</div>
+    <h2>Beyond <span>Syntax</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        "Garbage in, garbage out is not a cliché, it is a law."
+      </div>
+      <p>This guide isn't just about Python code; it's about the <strong>reasoning</strong> and <strong>professional judgment</strong> required to translate evidence into decisions.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Section 01</div>
+    <h2>Data <span>Acquisition</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>The foundation of any ML project. Before writing a single line of model code, you must determine if your data can be trusted.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Acquisition</div>
+    <h2>Identifying <span>Sources</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>First-Party Data:</strong> Internal databases, CRM, logs (Highest trust).</li>
+        <li><strong>Third-Party Data:</strong> APIs, Marketplace data (Kaggle, AWS Data Exchange).</li>
+        <li><strong>Unstructured Data:</strong> Web scraping, PDF extraction (High maintenance).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Acquisition</div>
+    <h2>The <span>Pandas Entrypoint</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <div class="code-header">PYTHON</div>
+        <pre>import pandas as pd
+
+# Professional loading with explicit parameters
+df = pd.read_csv('raw_data.csv', 
+                 na_values=['?', 'n/a'],
+                 low_memory=False,
+                 parse_dates=['timestamp'])</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Acquisition</div>
+    <h2>The <span>Initial Inspection</span></h2>
+    <div class="slide-content">
+      <p>Never assume the data matches the documentation. Verify immediately:</p>
+      <div class="code-block">
+        <pre>df.info()      # Check memory usage and non-null counts
+df.describe()  # Check for impossible values (e.g. age = -1)
+df.nunique()   # Check cardinality of categories</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Acquisition</div>
+    <h2>Spotting <span>Selection Bias</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        <strong>Warning:</strong> Is your data representative of the real world, or just the people who use your app on Fridays?
+      </div>
+      
+
+[Image of selection bias sampling diagram]
+
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Acquisition</div>
+    <h2>Snapshotting <span>Raw Data</span></h2>
+    <div class="slide-content">
+      <p>Always preserve the "Original" state before transformations. This allows you to trace errors back to the source.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Section 02</div>
+    <h2>Cleaning & <span>Preprocessing</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>Data cleaning is not a chore; it is feature engineering. How you handle missing data determines how your model "sees" the world.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Cleaning</div>
+    <h2>Handling <span>Missing Values</span></h2>
+    <div class="slide-content">
+      <p>Three professional approaches:</p>
+      <ul>
+        <li><strong>Dropping:</strong> Only if missingness is completely random.</li>
+        <li><strong>Imputation (Median/Mode):</strong> Standard for small gaps.</li>
+        <li><strong>Predictive Imputation:</strong> Using other columns to estimate the missing value.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Cleaning</div>
+    <h2>Imputation <span>Logic</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre># Professional imputation using Scikit-Learn
+from sklearn.impute import SimpleImputer
+
+imputer = SimpleImputer(strategy='median')
+df['age'] = imputer.fit_transform(df[['age']])</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Cleaning</div>
+    <h2>The <span>Outlier Dilemma</span></h2>
+    <div class="slide-content">
+      <p>Is an outlier an <strong>error</strong> (typo) or a <strong>discovery</strong> (a high-value whale customer)?</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Cleaning</div>
+    <h2>Z-Score <span>Filtering</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>from scipy import stats
+import numpy as np
+
+z_scores = np.abs(stats.zscore(df['salary']))
+df_clean = df[z_scores < 3] # Keep data within 3 standard deviations</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Preprocessing</div>
+    <h2>Encoding <span>Variables</span></h2>
+    <div class="slide-content">
+      <p>Converting labels into numbers for ML models:</p>
+      <div class="code-block">
+        <pre># One-Hot Encoding for Nominal data
+df = pd.get_dummies(df, columns=['city'])
+
+# Label Encoding for Ordinal data
+df['size'] = df['size'].map({'Small': 1, 'Medium': 2, 'Large': 3})</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Preprocessing</div>
+    <h2>Normalizing <span>Scales</span></h2>
+    <div class="slide-content">
+      <p>Models like SVM or KNN fail if one feature is 1,000x larger than another.</p>
+      <div class="code-block">
+        <pre>from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+df_scaled = scaler.fit_transform(df)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Preprocessing</div>
+    <h2>Clean <span>Names</span></h2>
+    <div class="slide-content">
+      <p>Professional tip: Lowercase, snake_case, and descriptive.</p>
+      <div class="code-block">
+        <pre>df.columns = [c.lower().replace(' ', '_') for c in df.columns]</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Cleaning</div>
+    <h2>The <span>Hidden Duplicate</span></h2>
+    <div class="slide-content">
+      <p>Sometimes duplicates aren't identical rows; they are the same user with two different IDs.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Cleaning Checklist</div>
+    <h2>Is it <span>Model Ready?</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>[ ] No NaN values remaining.</li>
+        <li>[ ] Numeric types correctly cast.</li>
+        <li>[ ] Categorical data encoded.</li>
+        <li>[ ] Features scaled and normalized.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Section 03</div>
+    <h2>Exploratory <span>Data Analysis (EDA)</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>EDA is where the analyst becomes a detective. We look for the patterns that matter and the correlations that lie.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Three <span>Main Questions</span></h2>
+    <div class="slide-content">
+      <ol>
+        <li>What is the central tendency (Mean/Median)?</li>
+        <li>What is the spread (Variance/IQR)?</li>
+        <li>Are there linear or non-linear relationships?</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Visualizing <span>Distribution</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.displot(df['price'], kde=True)
+plt.title('Price Distribution')</pre>
+      </div>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Relationship <span>Analysis</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>sns.regplot(x='advertising_spend', y='sales', data=df)
+plt.show()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>The <span>Heatmap Warning</span></h2>
+    <div class="slide-content">
+      <p>If two features have a correlation > 0.9, you have redundant info. This can confuse your model.</p>
+      <div class="code-block">
+        <pre>sns.heatmap(df.corr(), annot=True)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Pandas <span>Pivots</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre># See average revenue by Region and Product Category
+report = df.pivot_table(index='region', 
+                        columns='category', 
+                        values='revenue', 
+                        aggfunc='mean')</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Deep <span>Aggregates</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>df.groupby('customer_segment')['clv'].agg(['mean', 'max', 'count'])</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Why <span>Visualize?</span></h2>
+    <div class="slide-content">
+      <p>Four datasets can have identical Mean and Variance but look completely different when plotted. <strong>Always plot your data.</strong></p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Sanity <span>Checks</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        Does the data make sense? If your retail data shows a surge in sales of "Summer Shorts" in December, check if the data source is from the Southern Hemisphere.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA Summary</div>
+    <h2>Hypothesis <span>Generation</span></h2>
+    <div class="slide-content">
+      <p>By the end of EDA, you should have a list of features you suspect will be most predictive for your ML model.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Section 04</div>
+    <h2>Professional <span>Data Visualization</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>Visualization is not decoration. It is a communication protocol. A bad chart can lead to a bad business decision.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visualization</div>
+    <h2>The <span>Hierarchy of Perception</span></h2>
+    <div class="slide-content">
+      <p>The human eye is best at comparing <strong>Position</strong> (Scatter Plots) and <strong>Length</strong> (Bar Charts). It is worst at comparing <strong>Angles</strong> (Pie Charts).</p>
+      <div class="accent-box"><strong>Rule:</strong> Avoid Pie Charts in professional reports. Use Horizontal Bar Charts instead.</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visualization</div>
+    <h2>Strategic <span>Color</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Sequential:</strong> Low to high (Light blue to Dark blue).</li>
+        <li><strong>Diverging:</strong> Critical points (Red to White to Green).</li>
+        <li><strong>Qualitative:</strong> Categorical (Different colors for Apple, Orange, Banana).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visualization</div>
+    <h2>Standardizing <span>Style</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>plt.style.use('seaborn-v0_8-whitegrid')
+plt.rcParams['figure.figsize'] = (10, 6)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visualization</div>
+    <h2>Multi-Panel <span>Figures</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>fig, axes = plt.subplots(1, 2)
+sns.boxplot(ax=axes[0], y=df['age'])
+sns.violinplot(ax=axes[1], y=df['age'])</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visualization</div>
+    <h2>The <span>Unlabeled Sin</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        An unlabelled axis is a lie. Every chart must have: <strong>Title, X-label, Y-label, and Legend.</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visualization</div>
+    <h2>Managing <span>Density</span></h2>
+    <div class="slide-content">
+      <p>Too many points on a scatter plot? Use <strong>Alpha</strong> (transparency) or <strong>Hexbin</strong> plots.</p>
+      <div class="code-block">
+        <pre>plt.scatter(x, y, alpha=0.1)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visualization</div>
+    <h2>Enter <span>Plotly</span></h2>
+    <div class="slide-content">
+      <p>For stakeholder dashboards, interactive plots allow them to hover and see exact values.</p>
+      <div class="code-block">
+        <pre>import plotly.express as px
+fig = px.scatter(df, x='gdp', y='life_exp', hover_name='country')
+fig.show()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visualization</div>
+    <h2>Quick <span>Picker</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Trends:</strong> Line Chart.</li>
+        <li><strong>Comparisons:</strong> Bar Chart.</li>
+        <li><strong>Relationships:</strong> Scatter Plot.</li>
+        <li><strong>Composition:</strong> Stacked Area.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visual Checklist</div>
+    <h2>The <span>Squint Test</span></h2>
+    <div class="slide-content">
+      <p>Squint your eyes at the chart. If the main message (upward trend, big outlier) isn't visible, the chart is too cluttered.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Section 05</div>
+    <h2>From Numbers <span>to Narrative</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>Data doesn't speak for itself. You are the translator. You must turn statistical outputs into business value.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Narrative</div>
+    <h2>The <span>Stakeholder Filter</span></h2>
+    <div class="slide-content">
+      <p>Executives don't care about p-values or R-squared. They care about:</p>
+      <ul>
+        <li>Risk reduction.</li>
+        <li>Revenue growth.</li>
+        <li>Time savings.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Narrative</div>
+    <h2>The <span>Professional Caveat</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        "The data <strong>suggests</strong>..." vs "The data <strong>proves</strong>..."
+      </div>
+      <p>Always distinguish between a correlation and a causal link that requires an A/B test to confirm.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Narrative</div>
+    <h2>The <span>Executive Summary</span></h2>
+    <div class="slide-content">
+      <p><strong>B.L.U.F:</strong> Bottom Line Up Front. Put the answer in the first paragraph, then provide the evidence.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Narrative</div>
+    <h2>Communicating <span>Confidence</span></h2>
+    <div class="slide-content">
+      <p>If you have a 60% confidence recommendation, say so explicitly. Do not present estimates as certainties.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Narrative</div>
+    <h2>Ending <span>with Action</span></h2>
+    <div class="slide-content">
+      <p>Never end an analysis with "That's interesting." End with: "Based on this, we should [X]."</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Section 06</div>
+    <h2>Industry <span>Workflow & Mindset</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>Technical skills are table stakes. The mindset separates junior analysts from seniors.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Mindset</div>
+    <h2>Professional <span>vs Beginner</span></h2>
+    <div class="slide-content">
+      <table class="comparison-table">
+        <tr><th>Beginner</th><th>Professional</th></tr>
+        <tr><td>"My job is to run analysis."</td><td>"My job is to answer business questions."</td></tr>
+        <tr><td>"The data shows X."</td><td>"The data suggests X, with the caveat Y."</td></tr>
+        <tr><td>"The model is 94% accurate."</td><td>"Recall for the minority class is only 31%."</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Workflow</div>
+    <h2>The <span>O.S.E.M.N. Framework</span></h2>
+    <div class="slide-content">
+      <p><strong>O</strong>btain | <strong>S</strong>crub | <strong>E</strong>xplore | <strong>M</strong>odel | i<strong>N</strong>terpret</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Workflow</div>
+    <h2>Reproducibility</h2>
+    <div class="slide-content">
+      <p>Could someone else run your notebook 6 months from now and get the same results? Use virtual environments and seed random states.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Summary</div>
+    <h2>Data as <span>Judgment</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        "The tools are instruments. The music is your judgment."
+      </div>
+      <p>Frame-works change. Python versions change. Good analytical thinking is forever.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">The End</div>
+    <h1>Mastery <span>Unlocked</span></h1>
+    <div class="slide-content" style="text-align: center;">
+      <p>You have the guide. Now go find the data and solve the problem.</p>
+      <div style="margin-top: 30px;">
+        <a href="index.html" style="color: var(--accent); font-weight: 800; text-decoration: none; border: 1px solid var(--accent); padding: 15px 30px; border-radius: 4px;">RETURN TO COMMAND CENTER →</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="move(-1)">←</button>
+  <button class="nav-btn" onclick="move(1)">→</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const carousel = document.getElementById('carousel');
+  const progText = document.getElementById('prog-text');
+
+  function move(dir) {
+    currentSlide += dir;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide > slides.length - 1) currentSlide = slides.length - 1;
+    
+    carousel.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    progText.textContent = `Slide ${currentSlide + 1} / ${slides.length}`;
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') move(1);
+    if (e.key === 'ArrowLeft') move(-1);
+  });
+</script>
+
+</body>
+</html>

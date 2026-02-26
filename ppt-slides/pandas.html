@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pandas Data Analysis Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d12;
+    --surface: #1a1a24;
+    --surface2: #242433;
+    --border: #33334d;
+    --accent: #5ec8ff; /* Theme Blue for Pandas */
+    --text: #ffffff;
+    --muted: #b0b0cc;
+    --code-bg: #000000;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
+
+  .carousel-container { height: 100vh; width: 100vw; display: flex; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+
+  .slide { min-width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px 10%; position: relative; border-right: 1px solid var(--border); }
+
+  .slide-label { font-family: 'Space Mono', monospace; font-size: 1.1rem; color: var(--accent); text-transform: uppercase; letter-spacing: 6px; margin-bottom: 25px; }
+  h2 { font-size: clamp(2.8rem, 6vw, 4rem); font-weight: 800; text-align: center; margin-bottom: 30px; line-height: 1.1; }
+  h2 span { color: var(--accent); }
+  
+  .slide-content { max-width: 1200px; width: 100%; font-size: 1.5rem; color: var(--muted); line-height: 1.6; }
+
+  .code-block { background: var(--code-bg); border: 2px solid var(--border); border-radius: 16px; width: 100%; margin: 20px 0; text-align: left; }
+  .code-header { background: var(--surface2); padding: 10px 25px; font-family: 'Space Mono', monospace; font-size: 1rem; border-bottom: 2px solid var(--border); color: var(--accent); }
+  pre { padding: 25px; font-family: 'Space Mono', monospace; color: #e0e0e0; font-size: 1.1rem; overflow-x: auto; }
+  .comment { color: #7289da; font-style: italic; }
+
+  .accent-box { background: rgba(94, 200, 255, 0.08); border-left: 6px solid var(--accent); padding: 25px 35px; border-radius: 8px; margin: 25px 0; color: #fff; font-size: 1.4rem; }
+  
+  .nav-controls { position: fixed; bottom: 50px; right: 50px; display: flex; gap: 20px; z-index: 100; }
+  .nav-btn { background: var(--surface); border: 2px solid var(--border); color: var(--text); width: 60px; height: 60px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; transition: 0.3s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  
+  .progress-indicator { position: fixed; bottom: 50px; left: 50px; font-family: 'Space Mono', monospace; font-size: 1.2rem; color: var(--muted); }
+
+  ul { list-style: none; text-align: left; width: 100%; }
+  li { margin-bottom: 12px; display: flex; gap: 15px; }
+  li::before { content: "→"; color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="progress-indicator" id="prog-text">Slide 1 / 50</div>
+
+<div class="carousel-container" id="carousel">
+  
+  <section class="slide">
+    <div class="slide-label">Lesson 02</div>
+    <h2>Data Analysis <span>Mastery with Pandas</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>From Data Acquisition to Narrative Insights.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Objectives</div>
+    <h2>What You <span>Will Master</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>Load data from CSV, JSON, and SQL sources[cite: 14].</li>
+        <li>Perform high-level Data Quality Assessments[cite: 15].</li>
+        <li>Clean messy data (NaNs, Outliers, Duplicates).</li>
+        <li>Execute Exploratory Data Analysis (EDA).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Introduction</div>
+    <h2>The <span>Industry Standard</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        Pandas is the core library for data manipulation, built on top of NumPy[cite: 16].
+      </div>
+      <p>It provides the <strong>DataFrame</strong>—a spreadsheet-like table that allows for SQL-style operations at Python speeds[cite: 16].</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Philosophy</div>
+    <h2>Garbage In, <span>Garbage Out</span></h2>
+    <div class="slide-content">
+      <p>Data quality is the law of ML[cite: 15]. A serious analyst understands data provenance before writing models[cite: 15].</p>
+          </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Setup</div>
+    <h2>The <span>Standard Import</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Conventional alias used worldwide</span>
+import pandas as pd
+import numpy as np</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Acquisition</div>
+    <h2>Identifying <span>Data Sources</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>CSV/Excel:</strong> Universal and easy to inspect[cite: 15].</li>
+        <li><strong>APIs:</strong> Real-time and structured data[cite: 15].</li>
+        <li><strong>SQL:</strong> Reliable, production-grade tables[cite: 15].</li>
+        <li><strong>Scraping:</strong> Public data from the web[cite: 15].</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Acquisition</div>
+    <h2>Loading <span>CSV Files</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Basic load</span>
+df = pd.read_csv('data.csv')
+
+<span class="comment"># Load with specific encoding and NA handling</span>
+df = pd.read_csv('data.csv', 
+                 encoding='utf-8',
+                 na_values=['NA', 'N/A', ''])</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Acquisition</div>
+    <h2>Loading <span>JSON Data</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Frequently used for web-based data</span>
+df_json = pd.read_json('data.json')</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Quality</div>
+    <h2>The <span>Assessment Stage</span></h2>
+    <div class="slide-content">
+      <p>Professional analysts check four dimensions[cite: 15]:</p>
+      <ul>
+        <li><strong>Completeness:</strong> Are fields missing? [cite: 15]</li>
+        <li><strong>Consistency:</strong> Are formats unified? [cite: 15]</li>
+        <li><strong>Accuracy:</strong> Do values reflect reality? [cite: 15]</li>
+        <li><strong>Timeliness:</strong> Is the data current? [cite: 15]</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Quality</div>
+    <h2>First <span>Inspection Code</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Check shape (rows, columns)</span>
+print(df.shape) 
+
+<span class="comment"># Look at the actual data values</span>
+print(df.head(10))</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Quality</div>
+    <h2>Detecting <span>Type Mismatches</span></h2>
+    <div class="slide-content">
+      <p>Ensure dates aren't stored as "objects" (strings)[cite: 15].</p>
+      <div class="code-block">
+        <pre><span class="comment"># View column data types</span>
+print(df.dtypes) </pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Efficiency</div>
+    <h2>Reducing <span>Memory Usage</span></h2>
+    <div class="slide-content">
+      <p>Saves 50-80% memory by specifying types at load time[cite: 15].</p>
+      <div class="code-block">
+        <pre>dtypes = {
+    'id': 'int32',
+    'category': 'category' <span class="comment"># Huge savings for strings</span>
+}
+df = pd.read_csv('large.csv', dtype=dtypes)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Efficiency</div>
+    <h2>Processing <span>Large Files</span></h2>
+    <div class="slide-content">
+      <p>Don't load 10GB into RAM at once. Use chunks[cite: 15].</p>
+      <div class="code-block">
+        <pre><span class="comment"># Process in batches of 100k rows</span>
+for chunk in pd.read_csv('huge.csv', chunksize=100000):
+    process(chunk)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Cleaning</div>
+    <h2>Identifying <span>Missing Data</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Count NaNs per column</span>
+missing = df.isnull().sum()
+
+<span class="comment"># Calculate percentage</span>
+pct = (missing / len(df)) * 100</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Cleaning</div>
+    <h2>Detecting <span>Duplicates</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Find exact row duplicates</span>
+print(df.duplicated().sum())
+
+<span class="comment"># Remove duplicates</span>
+df = df.drop_duplicates()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Analysis</div>
+    <h2>The <span>.describe()</span> Method</h2>
+    <div class="slide-content">
+      <p>Quickly spot anomalies in Min/Max values[cite: 15].</p>
+      <div class="code-block">
+        <pre><span class="comment"># Stats for numeric columns</span>
+print(df.describe())
+
+<span class="comment"># Include categorical statistics</span>
+print(df.describe(include='all'))</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Analysis</div>
+    <h2>Categorical <span>Frequency</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Spot suspicious concentrations</span>
+print(df['category'].value_counts())</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Manipulation</div>
+    <h2>Changing <span>Column Types</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Convert to datetime objects</span>
+df['date'] = pd.to_datetime(df['date'])
+
+<span class="comment"># Convert to specific numeric type</span>
+df['age'] = df['age'].astype(int)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Manipulation</div>
+    <h2>Conditional <span>Selection</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Select active customers over 25</span>
+high_value = df[(df['age'] > 25) & (df['active'] == True)]</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Manipulation</div>
+    <h2>The <span>.loc</span> and <span>.iloc</span> Accessors</h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>.loc:</strong> Access by Label (name).</li>
+        <li><strong>.iloc:</strong> Access by Index (number).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Advanced</div>
+    <h2>The <span>IQR Method</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>Q1 = df['revenue'].quantile(0.25)
+Q3 = df['revenue'].quantile(0.75)
+IQR = Q3 - Q1
+
+lower = Q1 - 1.5 * IQR
+upper = Q3 + 1.5 * IQR
+
+<span class="comment"># Find outliers</span>
+outliers = df[(df['revenue'] < lower) | (df['revenue'] > upper)]</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Advanced</div>
+    <h2>Handling <span>Outliers</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Remove:</strong> Only if they are data errors[cite: 15].</li>
+        <li><strong>Winsorize:</strong> Cap values at percentile bounds[cite: 15].</li>
+        <li><strong>Log Transform:</strong> Compress skewness[cite: 15].</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Advanced</div>
+    <h2>Reducing <span>Skewness</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Compresses large values, reduces skew</span>
+df['revenue_log'] = np.log1p(df['revenue'])</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Analysis</div>
+    <h2>The <span>Groupby</span> Power</h2>
+    <div class="slide-content">
+      <p>Split, Apply, Combine workflow.</p>
+      <div class="code-block">
+        <pre><span class="comment"># Average revenue per category</span>
+result = df.groupby('category')['revenue'].mean()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Analysis</div>
+    <h2>Multiple <span>Aggregations</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>summary = df.groupby('city').agg({
+    'salary': 'mean',
+    'id': 'count'
+})</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Analysis</div>
+    <h2>Spreadsheet-style <span>Pivoting</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>pt = df.pivot_table(index='year', 
+                    columns='category', 
+                    values='sales', 
+                    aggfunc='sum')</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Discipline</div>
+    <h2>Fail-Fast <span>Assertions</span></h2>
+    <div class="slide-content">
+      <p>Assert what the data <em>should</em> look like[cite: 15].</p>
+      <div class="code-block">
+        <pre>assert df['age'].between(0, 120).all(), "Invalid ages detected"
+assert df['revenue'].ge(0).all(), "Negative revenue found"</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Manipulation</div>
+    <h2>Joining <span>Tables</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># SQL-style Inner Join</span>
+merged = pd.merge(df1, df2, on='user_id', how='inner')</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Manipulation</div>
+    <h2>Stacking <span>Dataframes</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Appending rows from different months</span>
+full_year = pd.concat([jan, feb, mar])</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Detective <span>Work</span></h2>
+    <div class="slide-content">
+      <p>Exploratory Data Analysis (EDA) is looking for the story before imposing a model[cite: 15].</p>
+      <div class="accent-box">
+        If your EDA confirms everything you already assumed, you probably didn't look hard enough[cite: 15].
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>The <span>Single Feature</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Histogram:</strong> Distribution shape[cite: 15].</li>
+        <li><strong>Boxplot:</strong> Quartiles and outliers[cite: 15].</li>
+        <li><strong>KDE:</strong> Smooth density estimate[cite: 15].</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Feature <span>Relationships</span></h2>
+    <div class="slide-content">
+      <p>Investigating how variables interact[cite: 15].</p>
+      <ul>
+        <li><strong>Scatter Plots:</strong> Correlation[cite: 15].</li>
+        <li><strong>Bar Charts:</strong> Comparing categories[cite: 15].</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">EDA</div>
+    <h2>Linear <span>Associations</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Pearson correlation matrix</span>
+print(df.corr())</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visuals</div>
+    <h2>Production-Quality <span>Charts</span></h2>
+    <div class="slide-content">
+      <p>Exploratory plots help you; presentation plots communicate to an audience[cite: 15].</p>
+          </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visuals</div>
+    <h2>The <span>Seaborn</span> Stack</h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>import seaborn as sns
+import matplotlib.pyplot as plt
+
+<span class="comment"># Set standard professional style</span>
+sns.set_theme(style="whitegrid")</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visuals</div>
+    <h2>Plotting <span>Distributions</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>sns.histplot(data=df, x='age', kde=True)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visuals</div>
+    <h2>Cleaning <span>the View</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Remove top and right borders</span>
+plt.rcParams['axes.spines.top'] = False
+plt.rcParams['axes.spines.right'] = False</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Advanced</div>
+    <h2>Working with <span>Time</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Set index to date for time slicing</span>
+df.set_index('date', inplace=True)
+
+<span class="comment"># Select specific month</span>
+may_data = df.loc['2023-05']</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Advanced</div>
+    <h2>Downsampling <span>Time</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Aggregate daily data to Monthly means</span>
+monthly = df.resample('M').mean()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Advanced</div>
+    <h2>Moving <span>Averages</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># 7-day rolling average to smooth trends</span>
+df['7d_avg'] = df['revenue'].rolling(window=7).mean()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Caution</div>
+    <h2>The <span>Leakage Trap</span></h2>
+    <div class="slide-content">
+      <p>Information from the future contaminating your training[cite: 15].</p>
+      <div class="accent-box">
+        Always split data before preprocessing to avoid leakage[cite: 15].
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Ethics</div>
+    <h2>Science <span>over Guessing</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Pin Versions:</strong> Lock library versions[cite: 15].</li>
+        <li><strong>Random Seeds:</strong> Set <code>np.random.seed(42)</code>[cite: 15].</li>
+        <li><strong>Parameterize:</strong> Never hardcode file paths[cite: 15].</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Ethics</div>
+    <h2>Protecting <span>Privacy</span></h2>
+    <div class="slide-content">
+      <p>Personally Identifiable Information (Names, Emails) must be hashed or removed before analysis[cite: 15].</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Workflow</div>
+    <h2>Industrial <span>Organization</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>project_name/
+├── data/
+│   ├── raw/      <span class="comment"># Immutable source</span>
+│   ├── processed/<span class="comment"># Final cleaned sets</span>
+├── notebooks/    <span class="comment"># Experimentation</span>
+└── src/          <span class="comment"># Reusable modules</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">I/O</div>
+    <h2>Saving <span>Your Work</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Save to CSV without index numbers</span>
+df.to_csv('cleaned_data.csv', index=False)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Capstone</div>
+    <h2>Customer <span>Churn Analysis</span></h2>
+    <div class="slide-content">
+      <p>Project Goal: Identify characteristics of customers who stop using the service.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Capstone</div>
+    <h2>Full <span>Analysis Code</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>df = pd.read_csv('customers.csv')
+df.dropna(inplace=True)
+churn_rate = df.groupby('plan')['churn'].mean()
+print(churn_rate)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Summary</div>
+    <h2>Key <span>Takeaways</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>Data Analysis is 80% cleaning[cite: 15].</li>
+        <li>Pandas is built for high-speed manipulation[cite: 16].</li>
+        <li>EDA is detective work to find the narrative[cite: 15].</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Final Note</div>
+    <h2>Professional <span>Judgment</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        The music is your judgment: knowing which patterns are real and how to translate evidence into decisions[cite: 15].
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Lesson Complete</div>
+    <h2>Master the <span>Fundamentals</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>The frameworks change. The thinking is forever[cite: 15].</p>
+      <div style="margin-top: 40px;">
+        <button class="nav-btn" style="width: auto; border-radius: 8px; padding: 0 40px;" onclick="location.reload()">RESTART LESSON</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="move(-1)">←</button>
+  <button class="nav-btn" onclick="move(1)">→</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const carousel = document.getElementById('carousel');
+  const progText = document.getElementById('prog-text');
+
+  function move(dir) {
+    currentSlide += dir;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide > slides.length - 1) currentSlide = slides.length - 1;
+    
+    carousel.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    progText.textContent = `Slide ${currentSlide + 1} / ${slides.length}`;
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') move(1);
+    if (e.key === 'ArrowLeft') move(-1);
+  });
+</script>
+
+</body>
+</html>

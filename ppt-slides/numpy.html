@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction to NumPy Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d12;
+    --surface: #1a1a24;
+    --surface2: #242433;
+    --border: #33334d;
+    --accent: #7fff6e; /* Neon Green */
+    --text: #ffffff;
+    --muted: #b0b0cc;
+    --code-bg: #000000;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
+
+  .carousel-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .slide {
+    min-width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 10%;
+    position: relative;
+    border-right: 1px solid var(--border);
+  }
+
+  /* INCREASED FONT SIZES */
+  .slide-label { font-family: 'Space Mono', monospace; font-size: 1.1rem; color: var(--accent); text-transform: uppercase; letter-spacing: 6px; margin-bottom: 25px; }
+  h2 { font-size: clamp(2.8rem, 6vw, 4.5rem); font-weight: 800; text-align: center; margin-bottom: 30px; line-height: 1.1; }
+  h2 span { color: var(--accent); }
+  
+  .slide-content { 
+    max-width: 1200px; 
+    width: 100%; 
+    font-size: 1.6rem; /* Enhanced for readability */
+    color: var(--muted); 
+    line-height: 1.6; 
+  }
+
+  .code-block { 
+    background: var(--code-bg); 
+    border: 2px solid var(--border); 
+    border-radius: 16px; 
+    width: 100%; 
+    margin: 25px 0; 
+    text-align: left; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .code-header { background: var(--surface2); padding: 12px 25px; font-family: 'Space Mono', monospace; font-size: 1rem; border-bottom: 2px solid var(--border); color: var(--accent); }
+  pre { padding: 30px; font-family: 'Space Mono', monospace; color: #e0e0e0; font-size: 1.2rem; overflow-x: auto; white-space: pre; }
+  .comment { color: #7289da; font-style: italic; }
+
+  .accent-box { background: rgba(127, 255, 110, 0.08); border-left: 6px solid var(--accent); padding: 25px 35px; border-radius: 8px; margin: 25px 0; color: #fff; font-size: 1.5rem; }
+  
+  .nav-controls { position: fixed; bottom: 50px; right: 50px; display: flex; gap: 20px; z-index: 100; }
+  .nav-btn { background: var(--surface); border: 2px solid var(--border); color: var(--text); width: 70px; height: 70px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; transition: 0.3s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-5px); }
+  
+  .progress-indicator { position: fixed; bottom: 50px; left: 50px; font-family: 'Space Mono', monospace; font-size: 1.2rem; color: var(--muted); }
+
+  ul { list-style: none; text-align: left; width: 100%; }
+  li { margin-bottom: 15px; display: flex; gap: 20px; align-items: flex-start; }
+  li::before { content: "→"; color: var(--accent); font-weight: bold; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: 100%; align-items: center; }
+</style>
+</head>
+<body>
+
+<div class="progress-indicator" id="prog-text">Slide 1 / 50</div>
+
+<div class="carousel-container" id="carousel">
+  
+  <section class="slide">
+    <div class="slide-label">Lesson 01</div>
+    <h2>Numerical <span>Python (NumPy)</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>A Beginner-Friendly Guide to Scientific Computing.</p>
+      <p style="margin-top: 20px; font-size: 1.2rem; color: var(--accent);">Instructor: Wirdin Leonard</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Learning Goals</div>
+    <h2>What You <span>Will Master</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>Creating and manipulating NumPy arrays.</li>
+        <li>Performing high-speed mathematical operations.</li>
+        <li>Applying NumPy to real-world data problems.</li>
+        <li>Understanding Shape Manipulation & Reshaping.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Introduction</div>
+    <h2>The <span>Foundation</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        NumPy (Numerical Python) is the fundamental library for scientific computing in Python.
+      </div>
+      <p>It provides support for large, multi-dimensional arrays and high-level mathematical functions.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Introduction</div>
+    <h2>Why <span>Care About It?</span></h2>
+    <div class="slide-content">
+      <p>In data science, speed is everything. NumPy is essential because:</p>
+      <ul>
+        <li>It is significantly faster than standard Python lists.</li>
+        <li>It consumes less memory.</li>
+        <li>It is the base for Pandas, SciPy, and Scikit-Learn.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Setup</div>
+    <h2>Getting <span>Started</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <div class="code-header">TERMINAL COMMAND</div>
+        <pre><span class="comment"># Use the Python package manager to install</span>
+pip install numpy</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Setup</div>
+    <h2>The <span>Standard Import</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <div class="code-header">PYTHON SCRIPT</div>
+        <pre><span class="comment"># 'np' is the universal alias used in industry</span>
+import numpy as np</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Core Concepts</div>
+    <h2>Arrays <span>vs. Lists</span></h2>
+    <div class="slide-content">
+      <p>Python Lists are flexible but slow. NumPy Arrays are fixed-type and lightning fast.</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Syntax</div>
+    <h2>Creating <span>Your First Array</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Creating a simple 1D array from a list</span>
+my_list = [1, 2, 3, 4, 5]
+arr = np.array(my_list)
+
+print(arr) <span class="comment"># Output: [1 2 3 4 5]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Syntax</div>
+    <h2>Working with <span>Matrices</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Creating a 2D array (Matrix)</span>
+matrix = np.array([[1, 2, 3], [4, 5, 6]])
+
+print(matrix)
+<span class="comment"># Output:
+# [[1 2 3]
+#  [4 5 6]]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Syntax</div>
+    <h2>Generating <span>Zeros & Ones</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Create an array of 5 zeros</span>
+zeros = np.zeros(5)
+
+<span class="comment"># Create a 2x3 matrix of ones</span>
+ones = np.ones((2, 3))</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Syntax</div>
+    <h2>The <span>np.arange</span> Method</h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Like range(), but returns an array</span>
+<span class="comment"># Syntax: start, stop, step</span>
+evens = np.arange(0, 11, 2)
+
+print(evens) <span class="comment"># [0 2 4 6 8 10]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Syntax</div>
+    <h2>Linear <span>Spacing</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Create 5 evenly spaced points between 0 and 1</span>
+points = np.linspace(0, 1, 5)
+
+print(points) <span class="comment"># [0. 0.25 0.5 0.75 1.]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Syntax</div>
+    <h2>Generating <span>Randomness</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Random floats between 0 and 1</span>
+rand_arr = np.random.rand(4)
+
+<span class="comment"># Random integers between 1 and 100</span>
+rand_int = np.random.randint(1, 101, 5)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Operations</div>
+    <h2>Array <span>Indexing</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>arr = np.array([10, 20, 30, 40])
+
+<span class="comment"># Accessing elements (starts at 0)</span>
+print(arr[0]) <span class="comment"># 10</span>
+print(arr[2]) <span class="comment"># 30</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Operations</div>
+    <h2>Array <span>Slicing</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>arr = np.array([0, 1, 2, 3, 4, 5])
+
+<span class="comment"># Get elements from index 1 to 4 (exclusive)</span>
+print(arr[1:4]) <span class="comment"># [1 2 3]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Operations</div>
+    <h2>Indexing <span>2D Arrays</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>mat = np.array([[5, 10], [15, 20]])
+
+<span class="comment"># Syntax: [row, column]</span>
+print(mat[0, 1]) <span class="comment"># 10</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Math</div>
+    <h2>Vectorized <span>Operations</span></h2>
+    <div class="slide-content">
+      <p>Math operations are applied to every element simultaneously (element-wise).</p>
+      <div class="code-block">
+        <pre>arr = np.array([1, 2, 3])
+
+print(arr + 10) <span class="comment"># [11 12 13]</span>
+print(arr * 2)  <span class="comment"># [2 4 6]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Math</div>
+    <h2>Adding <span>Two Arrays</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+print(a + b) <span class="comment"># [5 7 9]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Math</div>
+    <h2>Power <span>Functions</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>arr = np.array([1, 4, 9])
+
+print(np.sqrt(arr)) <span class="comment"># [1. 2. 3.]</span>
+print(np.exp(arr))  <span class="comment"># Exponential</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Statistics</div>
+    <h2>Quick <span>Data Analysis</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>data = np.array([1, 5, 10, 20])
+
+print(data.mean()) <span class="comment"># 9.0</span>
+print(data.max())  <span class="comment"># 20</span>
+print(data.std())  <span class="comment"># Standard Deviation</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Deep Dive</div>
+    <h2>Understanding <span>Broadcasting</span></h2>
+    <div class="slide-content">
+      <p>Broadcasting allows NumPy to work with arrays of different shapes during arithmetic operations.</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Shape</div>
+    <h2>Checking <span>Dimensions</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>arr = np.array([[1, 2, 3], [4, 5, 6]])
+
+<span class="comment"># returns (rows, columns)</span>
+print(arr.shape) <span class="comment"># (2, 3)</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Shape</div>
+    <h2>The <span>Reshape</span> Method</h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>arr = np.arange(9) <span class="comment"># [0...8]</span>
+
+<span class="comment"># Change 1D (9,) to 2D (3, 3)</span>
+reshaped = arr.reshape(3, 3)
+
+print(reshaped)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Shape</div>
+    <h2>Reshaping <span>Constraint</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        The total number of elements must remain the same!
+      </div>
+      <p>You cannot reshape an 8-element array into a 3x3 matrix (which requires 9).</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Shape</div>
+    <h2>Transposing <span>Matrices</span></h2>
+    <div class="slide-content">
+      <p>Switching rows with columns (Portrait to Landscape).</p>
+      <div class="code-block">
+        <pre>mat = np.array([[1, 2], [3, 4]])
+
+print(mat.T)
+<span class="comment"># Output:
+# [[1 3]
+#  [2 4]]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Utility</div>
+    <h2>Finding <span>Index Positions</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>arr = np.array([10, 50, 20])
+
+<span class="comment"># Returns the index of the largest value</span>
+print(arr.argmax()) <span class="comment"># 1 (because 50 is at index 1)</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Metadata</div>
+    <h2>Array <span>Dtypes</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>arr = np.array([1, 2, 3])
+print(arr.dtype) <span class="comment"># int64</span>
+
+arr_f = np.array([1.0, 2.5])
+print(arr_f.dtype) <span class="comment"># float64</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Case Study</div>
+    <h2>Weather <span>Analysis</span></h2>
+    <div class="slide-content">
+      <p>Imagine we have temperature data for 7 days.</p>
+      <div class="code-block">
+        <pre>temps = np.array([22, 25, 19, 21, 30, 28, 24])
+
+<span class="comment"># Filter for days above 25 degrees</span>
+hot_days = temps[temps > 25]
+
+print(hot_days) <span class="comment"># [30 28]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Advanced</div>
+    <h2>Conditional <span>Selection</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>arr = np.arange(1, 11)
+
+<span class="comment"># Create a boolean mask</span>
+mask = arr > 5
+
+<span class="comment"># Use mask to filter</span>
+print(arr[mask]) <span class="comment"># [6 7 8 9 10]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Advanced</div>
+    <h2>Slicing <span>Matrices</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>mat = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+
+<span class="comment"># Get first 2 rows, last 2 columns</span>
+subset = mat[:2, 1:]
+<span class="comment"># [[2, 3], [5, 6]]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Caution</div>
+    <h2>The <span>Copy Problem</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        Assigning <code>arr2 = arr1</code> does not copy data; it creates a reference!
+      </div>
+      <div class="code-block">
+        <pre><span class="comment"># Correct way to copy</span>
+arr_copy = arr.copy()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Manipulation</div>
+    <h2>Joining <span>Arrays</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>arr1 = np.array([1, 2])
+arr2 = np.array([3, 4])
+
+combined = np.concatenate((arr1, arr2))
+<span class="comment"># [1 2 3 4]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Manipulation</div>
+    <h2>Stacking <span>Arrays</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Vertical Stack</span>
+np.vstack((arr1, arr2))
+
+<span class="comment"># Horizontal Stack</span>
+np.hstack((arr1, arr2))</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Analysis</div>
+    <h2>Finding <span>Duplicates</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>arr = np.array([1, 2, 2, 3, 3, 3])
+
+unique_vals = np.unique(arr)
+print(unique_vals) <span class="comment"># [1 2 3]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Linear Algebra</div>
+    <h2>The <span>Dot Product</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>A = np.array([[1, 2], [3, 4]])
+B = np.array([[5, 6], [7, 8]])
+
+<span class="comment"># Industry standard notation for dot product</span>
+result = A @ B</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Linear Algebra</div>
+    <h2>The <span>Identity Matrix</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># 3x3 Identity matrix</span>
+I = np.eye(3)</pre>
+      </div>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Statistics</div>
+    <h2>Summing by <span>Axis</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>mat = np.array([[1, 1], [2, 2]])
+
+print(mat.sum(axis=0)) <span class="comment"># Sum columns: [3 3]</span>
+print(mat.sum(axis=1)) <span class="comment"># Sum rows: [2 4]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Data Cleaning</div>
+    <h2>Handling <span>Missing Data</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>arr = np.array([1, np.nan, 3])
+
+<span class="comment"># Check for NaNs</span>
+print(np.isnan(arr))</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Utility</div>
+    <h2>The <span>np.where</span> Logic</h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>arr = np.array([10, 20, 30, 40])
+
+<span class="comment"># Replace values > 25 with 1, else 0</span>
+out = np.where(arr > 25, 1, 0)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Shape</div>
+    <h2>Flattening <span>Arrays</span></h2>
+    <div class="slide-content">
+      <p>Converting a multi-dimensional matrix back to 1D.</p>
+      <div class="code-block">
+        <pre>mat = np.array([[1, 2], [3, 4]])
+flat = mat.ravel() <span class="comment"># [1 2 3 4]</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">I/O</div>
+    <h2>Exporting <span>NumPy Files</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Save array to disk</span>
+np.save('my_array.npy', arr)
+
+<span class="comment"># Load it back</span>
+loaded_arr = np.load('my_array.npy')</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">The Why</div>
+    <h2>Speed <span>Benchmark</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        NumPy operations are often 10x to 100x faster than pure Python loops on millions of elements.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Capstone</div>
+    <h2>Project: <span>Weather Trends</span></h2>
+    <div class="slide-content">
+      <p>Goal: Analyze a month of temperature data and calculate significant shifts.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Capstone</div>
+    <h2>Data <span>Simulation</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># 30 days of random temps between 15 and 35</span>
+month_temps = np.random.randint(15, 36, 30)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Capstone</div>
+    <h2>Statistical <span>Summary</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>print(f"Avg: {month_temps.mean():.2f}")
+print(f"Max: {month_temps.max()}")
+print(f"Min: {month_temps.min()}")</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Capstone</div>
+    <h2>Trend <span>Analysis</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre><span class="comment"># Days warmer than average</span>
+above_avg = month_temps[month_temps > month_temps.mean()]
+print(f"Warm days count: {len(above_avg)}")</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Troubleshooting</div>
+    <h2>Common <span>Pitfalls</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>ValueError:</strong> Trying to reshape with mismatched sizes.</li>
+        <li><strong>TypeError:</strong> Putting strings and numbers in the same array (everything becomes a string!).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Summary</div>
+    <h2>Key <span>Takeaways</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>NumPy is the speed layer for Python math.</li>
+        <li>Arrays are the primary data structure.</li>
+        <li>Vectorization removes the need for slow loops.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">The Future</div>
+    <h2>What's <span>Next?</span></h2>
+    <div class="slide-content">
+      <div class="accent-box">
+        Next Lesson: **Pandas**. 
+        <br>We will use NumPy knowledge to manipulate high-level data tables.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Finishing Line</div>
+    <h2>Go <span>Start Coding</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>The best way to learn NumPy is to open a notebook and experiment.</p>
+      <div style="margin-top: 40px;">
+        <button class="nav-btn" style="width: auto; border-radius: 8px; padding: 0 40px;" onclick="location.reload()">RESTART LESSON</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="move(-1)">←</button>
+  <button class="nav-btn" onclick="move(1)">→</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const carousel = document.getElementById('carousel');
+  const progText = document.getElementById('prog-text');
+
+  function move(dir) {
+    currentSlide += dir;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide > slides.length - 1) currentSlide = slides.length - 1;
+    
+    carousel.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    progText.textContent = `Slide ${currentSlide + 1} / ${slides.length}`;
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') move(1);
+    if (e.key === 'ArrowLeft') move(-1);
+  });
+</script>
+
+</body>
+</html>
