@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cameroon Telecom EDA Presentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #151520;
+    --surface2: #1e1e2d;
+    --border: #303045;
+    --accent: #7fff6e; /* Telecom Green */
+    --text: #ffffff;
+    --muted: #a0a0b8;
+    --code-bg: #000000;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
+
+  .carousel-container { height: 100vh; width: 100vw; display: flex; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+
+  .slide { min-width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px 8%; position: relative; border-right: 1px solid var(--border); }
+
+  .slide-label { font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--accent); text-transform: uppercase; letter-spacing: 5px; margin-bottom: 20px; }
+  h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.1; }
+  h2 span { color: var(--accent); }
+  
+  .slide-content { max-width: 1100px; width: 100%; font-size: 1.4rem; color: var(--muted); line-height: 1.6; }
+
+  .code-block { background: var(--code-bg); border: 1px solid var(--border); border-radius: 12px; width: 100%; margin: 15px 0; text-align: left; position: relative; }
+  .code-header { background: var(--surface2); padding: 8px 20px; font-family: 'Space Mono', monospace; font-size: 0.9rem; border-bottom: 1px solid var(--border); color: var(--accent); }
+  pre { padding: 20px; font-family: 'Space Mono', monospace; color: #d1d1d1; font-size: 1rem; overflow-x: auto; white-space: pre-wrap; }
+  .comment { color: #6a9955; font-style: italic; }
+
+  .insight-card { background: rgba(127, 255, 110, 0.05); border-left: 4px solid var(--accent); padding: 20px; border-radius: 4px; margin: 20px 0; color: #fff; }
+  
+  .nav-controls { position: fixed; bottom: 40px; right: 40px; display: flex; gap: 15px; z-index: 100; }
+  .nav-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.3s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); background: #1a1a2a; }
+  
+  .progress-indicator { position: fixed; bottom: 40px; left: 40px; font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--muted); }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 1rem; }
+  th { text-align: left; color: var(--accent); border-bottom: 2px solid var(--border); padding: 10px; }
+  td { padding: 10px; border-bottom: 1px solid var(--border); color: #e0e0e0; }
+
+  ul { list-style: none; }
+  li { margin-bottom: 10px; display: flex; align-items: flex-start; gap: 10px; }
+  li::before { content: "⚡"; color: var(--accent); font-size: 0.9rem; margin-top: 5px; }
+</style>
+</head>
+<body>
+
+<div class="progress-indicator" id="prog-text">Slide 1 / 50</div>
+
+<div class="carousel-container" id="carousel">
+  
+  <section class="slide">
+    <div class="slide-label">Case Study</div>
+    <h2>Telecom <span>Exploratory Data Analysis</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>Analyzing the Cameroon Digital Landscape: MTN, Orange, and Nexttel.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Introduction</div>
+    <h2>The <span>Problem Space</span></h2>
+    <div class="slide-content">
+      <p>In this walkthrough, we analyze usage data from major telecom operators in Cameroon to derive business-critical insights.</p>
+      <div class="insight-card">
+        <strong>Objective:</strong> Transform raw usage numbers into a strategy for a CEO.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Market Focus</div>
+    <h2>Target <span>Operators</span></h2>
+    <div class="slide-content" style="display: flex; gap: 40px; justify-content: center;">
+      <div style="text-align: center;">
+        <div style="width: 80px; height: 80px; background: #FFCC00; border-radius: 50%; margin: 0 auto;"></div>
+        <p style="margin-top: 10px; color: #fff;">MTN</p>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 80px; height: 80px; background: #FF6600; border-radius: 50%; margin: 0 auto;"></div>
+        <p style="margin-top: 10px; color: #fff;">Orange</p>
+      </div>
+      <div style="text-align: center;">
+        <div style="width: 80px; height: 80px; background: #CC0000; border-radius: 50%; margin: 0 auto;"></div>
+        <p style="margin-top: 10px; color: #fff;">Nexttel</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Step 01</div>
+    <h2>Importing <span>The Stack</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <div class="code-header">PYTHON</div>
+        <pre>import pandas as pd
+import numpy as np</pre>
+      </div>
+      <p>Pandas for data structures, NumPy for numerical generation.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Step 02</div>
+    <h2>Simulating <span>Realism</span></h2>
+    <div class="slide-content">
+      <p>We use <code>np.random.seed(42)</code> to ensure our analysis is reproducible by other team members.</p>
+      <div class="code-block">
+        <pre>np.random.seed(42)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Data Dictionary</div>
+    <h2>The <span>Feature Set</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>City:</strong> Bamenda, Douala, Yaoundé, Bafoussam.</li>
+        <li><strong>Metrics:</strong> Data (GB), Calls (Min), SMS, Revenue (XAF).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Implementation</div>
+    <h2>Building the <span>DataFrame</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>data = {
+    "CustomerID": range(1, 21),
+    "City": np.random.choice(["Bamenda", "Douala", "Yaounde", "Bafoussam"], 20),
+    "Operator": np.random.choice(["MTN", "Orange", "Nexttel"], 20),
+    "Data_Usage_GB": np.random.randint(1, 50, 20),
+    "Monthly_Revenue_XAF": np.random.randint(2000, 30000, 20)
+}
+telecom_df = pd.DataFrame(data)</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Inspection</div>
+    <h2>Dataset <span>Snapshot</span></h2>
+    <div class="slide-content">
+      <table>
+        <tr><th>ID</th><th>City</th><th>Operator</th><th>Data (GB)</th><th>Revenue (XAF)</th></tr>
+        <tr><td>1</td><td>Bamenda</td><td>MTN</td><td>12</td><td>15,000</td></tr>
+        <tr><td>2</td><td>Douala</td><td>Orange</td><td>45</td><td>27,000</td></tr>
+        <tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Step 03</div>
+    <h2>Initial <span>Audit</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>telecom_df.info()</pre>
+      </div>
+      <p>We check for <strong>Non-Null Counts</strong> and ensure numeric columns aren't accidentally "objects".</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Step 03</div>
+    <h2>Descriptive <span>Statistics</span></h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>telecom_df.describe()</pre>
+      </div>
+      <p>Allows us to see the "Average" customer profile at a glance.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Step 04</div>
+    <h2>Core <span>Data Aggregation</span></h2>
+    <div class="slide-content">
+      <div class="insight-card">
+        This is where we move from "seeing data" to "answering business questions."
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Analysis A</div>
+    <h2>Customer <span>Volume</span></h2>
+    <div class="slide-content">
+      <p>Question: Which operator has the most customers?</p>
+      <div class="code-block">
+        <pre>telecom_df.groupby("Operator")["CustomerID"].count()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Insights</div>
+    <h2>Volume <span>Results</span></h2>
+    <div class="slide-content">
+      <table>
+        <tr><th>Operator</th><th>Count</th></tr>
+        <tr><td>MTN</td><td>8</td></tr>
+        <tr><td>Orange</td><td>6</td></tr>
+        <tr><td>Nexttel</td><td>6</td></tr>
+      </table>
+      <div class="insight-card">📌 MTN dominates the sample volume.</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Analysis B</div>
+    <h2>Average <span>Consumption</span></h2>
+    <div class="slide-content">
+      <p>Question: Who are the heaviest data users?</p>
+      <div class="code-block">
+        <pre>telecom_df.groupby("Operator")["Data_Usage_GB"].mean()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Insights</div>
+    <h2>Consumption <span>Patterns</span></h2>
+    <div class="slide-content">
+      <table>
+        <tr><th>Operator</th><th>Avg GB</th></tr>
+        <tr><td>Orange</td><td>30.2</td></tr>
+        <tr><td>MTN</td><td>22.5</td></tr>
+      </table>
+      <div class="insight-card">📌 Orange users are high-bandwidth consumers.</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Analysis C</div>
+    <h2>Geography vs <span>Revenue</span></h2>
+    <div class="slide-content">
+      <p>Question: Where is the money coming from?</p>
+      <div class="code-block">
+        <pre>telecom_df.groupby("City")["Monthly_Revenue_XAF"].sum()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Insights</div>
+    <h2>City <span>Revenue Ranking</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Douala:</strong> 210,000 XAF</li>
+        <li><strong>Yaounde:</strong> 180,000 XAF</li>
+      </ul>
+      <div class="insight-card">📌 Douala remains the economic engine for revenue.</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Analysis D</div>
+    <h2>The <span>.agg()</span> Method</h2>
+    <div class="slide-content">
+      <p>Aggregating different columns with different metrics simultaneously.</p>
+      <div class="code-block">
+        <pre>telecom_df.groupby("Operator").agg({
+    "Data_Usage_GB": "mean",
+    "Monthly_Revenue_XAF": "sum"
+})</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Output</div>
+    <h2>The <span>Executive Summary</span></h2>
+    <div class="slide-content">
+      <table>
+        <tr><th>Operator</th><th>Avg Data</th><th>Total Revenue</th></tr>
+        <tr><td>MTN</td><td>22.5</td><td>150,000</td></tr>
+        <tr><td>Orange</td><td>30.2</td><td>170,000</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Analysis E</div>
+    <h2>Segmenting <span>VIPs</span></h2>
+    <div class="slide-content">
+      <p>Define high-value as revenue > 20,000 XAF.</p>
+      <div class="code-block">
+        <pre>high_val = telecom_df[telecom_df["Monthly_Revenue_XAF"] > 20000]</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Strategy</div>
+    <h2>The <span>VIP Retention</span> Strategy</h2>
+    <div class="slide-content">
+      <div class="insight-card">
+        <strong>Action:</strong> These customers should receive exclusive data bundles or priority support to prevent churn.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Analysis F</div>
+    <h2>Monetization <span>Efficiency</span></h2>
+    <div class="slide-content">
+      <p>Which operator earns more per individual user?</p>
+      <div class="code-block">
+        <pre>telecom_df.groupby("Operator")["Monthly_Revenue_XAF"].mean()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Insights</div>
+    <h2>Revenue <span>Extraction</span></h2>
+    <div class="slide-content">
+      <p>Does high volume (MTN) mean high average revenue? Not always. Analysis helps distinguish between "Popularity" and "Profitability."</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Final Phase</div>
+    <h2>Strategic <span>Advisory</span></h2>
+    <div class="slide-content">
+      <p>If you were advising the CEO today, what are the primary pillars of your recommendation?</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">CEO Question</div>
+    <h2>"Where is our <span>Cash Cow?</span>"</h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>telecom_df.groupby("City")["Monthly_Revenue_XAF"].sum()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">CEO Question</div>
+    <h2>"Who has the <span>Premium Brand?</span>"</h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>telecom_df.groupby("Operator")["Monthly_Revenue_XAF"].mean()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">CEO Question</div>
+    <h2>"Who owns the <span>Data Market?</span>"</h2>
+    <div class="slide-content">
+      <div class="code-block">
+        <pre>telecom_df.groupby("Operator")["Data_Usage_GB"].mean()</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">CEO Question</div>
+    <h2>"Where do we build <span>Towers?</span>"</h2>
+    <div class="slide-content">
+      <p>Identify the city with the highest total Data Usage to prioritize 4G/5G expansion.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Summary</div>
+    <h2>Top 3 <span>Findings</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>MTN leads in total subscribers.</li>
+        <li>Orange leads in data usage per head.</li>
+        <li>Douala is the primary revenue source.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Lesson Complete</div>
+    <h2>Turn Data into <span>Action</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>You have successfully analyzed the Cameroon Telecom landscape.</p>
+      <div style="margin-top: 40px;">
+        <button class="nav-btn" style="width: auto; border-radius: 8px; padding: 0 40px;" onclick="location.reload()">RESTART LESSON</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="move(-1)">←</button>
+  <button class="nav-btn" onclick="move(1)">→</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const carousel = document.getElementById('carousel');
+  const progText = document.getElementById('prog-text');
+
+  function move(dir) {
+    currentSlide += dir;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide > slides.length - 1) currentSlide = slides.length - 1;
+    
+    carousel.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    progText.textContent = `Slide ${currentSlide + 1} / ${slides.length}`;
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') move(1);
+    if (e.key === 'ArrowLeft') move(-1);
+  });
+</script>
+
+</body>
+</html>

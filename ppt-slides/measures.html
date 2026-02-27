@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Statistics for Data Science Masterclass</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050508;
+    --surface: #11111a;
+    --surface2: #1a1a26;
+    --border: #2d2d3f;
+    --accent: #5ec8ff; /* Professional Blue */
+    --accent2: #ffdd57; /* Warning Yellow */
+    --text: #ffffff;
+    --muted: #a0a0b8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
+
+  .carousel-container { height: 100vh; width: 100vw; display: flex; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+
+  .slide { min-width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px 10%; position: relative; border-right: 1px solid var(--border); }
+
+  .slide-label { font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--accent); text-transform: uppercase; letter-spacing: 5px; margin-bottom: 20px; }
+  h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.1; }
+  h2 span { color: var(--accent); }
+  
+  .slide-content { max-width: 1000px; width: 100%; font-size: 1.4rem; color: var(--muted); line-height: 1.6; }
+
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 30px; margin: 20px 0; width: 100%; }
+  .stat-card h3 { color: #fff; margin-bottom: 15px; font-size: 1.8rem; }
+  
+  .warning-box { background: rgba(255, 221, 87, 0.05); border-left: 4px solid var(--accent2); padding: 20px; border-radius: 4px; margin: 20px 0; color: var(--accent2); font-size: 1.2rem; }
+  
+  .nav-controls { position: fixed; bottom: 40px; right: 40px; display: flex; gap: 15px; z-index: 100; }
+  .nav-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.3s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  
+  .progress-indicator { position: fixed; bottom: 40px; left: 40px; font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--muted); }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
+  ul { list-style: none; }
+  li { margin-bottom: 10px; display: flex; align-items: flex-start; gap: 10px; }
+  li::before { content: "→"; color: var(--accent); font-weight: bold; }
+  
+  .formula { font-family: 'Space Mono', monospace; background: #000; padding: 15px; border-radius: 8px; color: var(--accent); text-align: center; margin: 15px 0; }
+</style>
+</head>
+<body>
+
+<div class="progress-indicator" id="prog-text">Slide 1 / 40</div>
+
+<div class="carousel-container" id="carousel">
+  
+  <section class="slide">
+    <div class="slide-label">Foundation 01</div>
+    <h2>Statistical <span>Foundations</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>Moving beyond averages to truly understand the story behind the data.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">The Big Picture</div>
+    <h2>Why <span>Statistics?</span></h2>
+    <div class="slide-content">
+      <p>If you only know the average, you only know half the story. To make smart decisions, we must quantify <strong>center</strong>, <strong>variation</strong>, and <strong>risk</strong>.</p>
+      <div class="stat-card">
+        <p>"Data is just a collection of numbers; statistics is the lens that brings them into focus."</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Module 01</div>
+    <h2>Measures of <span>Central Tendency</span></h2>
+    <div class="slide-content">
+      <p>Answering the simple question:</p>
+      <h3 style="color: #fff; margin-top: 20px;">"Where is the center of the data?"</h3>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">01. Central Tendency</div>
+    <h2>The <span>Mean</span> (Average)</h2>
+    <div class="slide-content">
+      <p>The Mean is what you get when you share everything equally.</p>
+      <div class="formula">Mean = Sum of All Values / Number of Values</div>
+      <p>It answers: "If everything were redistributed equally, what would each person get?"</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Scenario</div>
+    <h2>The <span>Equal Share</span></h2>
+    <div class="slide-content">
+      <div class="stat-card">
+        <p>If 5 people share a total income of $5,000...</p>
+        <h3 style="color: var(--accent);">The Mean is $1,000.</h3>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">The Mean Pitfall</div>
+    <h2>When the <span>Mean Lies</span></h2>
+    <div class="slide-content">
+      <p>Incomes: $500, $600, $550, $650, <strong>$10,000</strong></p>
+      <div class="formula">Mean = $2,460</div>
+      <div class="warning-box">
+        Does $2,460 represent a "typical" employee? <strong>No.</strong> One executive is distorting the result.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Use Cases</div>
+    <h2>Where <span>Mean Works</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>Average revenue per customer.</li>
+        <li>Average call duration in telecom.</li>
+        <li>Overall exam scores in a class.</li>
+        <li>General hospital performance metrics.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">01. Central Tendency</div>
+    <h2>The <span>Median</span></h2>
+    <div class="slide-content">
+      <p>The middle value when data is arranged in order.</p>
+      <p>It answers: <strong>"What does the typical person look like?"</strong></p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Scenario</div>
+    <h2>Sorting for <span>Truth</span></h2>
+    <div class="slide-content">
+      <p>Sorted Incomes: $500, $550, <strong>$600</strong>, $650, $10,000</p>
+      <div class="stat-card">
+        <h3 style="color: var(--accent);">Median = $600</h3>
+        <p>This is a far more accurate representation of the typical employee.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Properties</div>
+    <h2>Robustness to <span>Outliers</span></h2>
+    <div class="slide-content">
+      <p>Unlike the mean, the median is not affected by extreme values.</p>
+      <ul>
+        <li>Ideal for economic inequality measures.</li>
+        <li>Perfect for housing affordability.</li>
+        <li>Best for salary benchmarking.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Critical Thinking</div>
+    <h2>Ask the <span>Right Question</span></h2>
+    <div class="slide-content">
+      <div class="warning-box">
+        When the news says: "The average salary is $10k," you MUST ask: <strong>"Is that the Mean or the Median?"</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">01. Central Tendency</div>
+    <h2>The <span>Mode</span></h2>
+    <div class="slide-content">
+      <p>The most frequent value in the dataset.</p>
+      <p>It answers: <strong>"What occurs most often?"</strong></p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Applications</div>
+    <h2>Mode in <span>Real Life</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Telecom:</strong> Most common data plan used.</li>
+        <li><strong>Retail:</strong> Most purchased shoe size (e.g., Size 42).</li>
+        <li><strong>Education:</strong> Most common grade range.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Limitations</div>
+    <h2>When <span>Mode Fails</span></h2>
+    <div class="slide-content">
+      <p>The mode can be misleading if:</p>
+      <ul>
+        <li>The data has multiple peaks (Bimodal).</li>
+        <li>The data is continuous (like precise income cents).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Module 02</div>
+    <h2>Measures of <span>Variation</span></h2>
+    <div class="slide-content">
+      <p>Answering the vital question:</p>
+      <h3 style="color: #fff; margin-top: 20px;">"How different are these values from each other?"</h3>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Consistency</div>
+    <h2>The <span>Chaos Factor</span></h2>
+    <div class="slide-content">
+      <div class="grid">
+        <div class="stat-card">
+          <p><strong>Class A:</strong></p>
+          <p>70, 71, 69, 70, 70</p>
+          <p style="color: var(--accent);">High Consistency</p>
+        </div>
+        <div class="stat-card">
+          <p><strong>Class B:</strong></p>
+          <p>40, 100, 30, 90, 90</p>
+          <p style="color: var(--accent2);">High Variation</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Strategy</div>
+    <h2>Stability vs. <span>Risk</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Finance:</strong> Stock volatility measurement.</li>
+        <li><strong>Healthcare:</strong> Patient recovery time variance.</li>
+        <li><strong>Telecom:</strong> Network latency stability.</li>
+      </ul>
+      <div class="insight-card" style="border-top: 1px solid var(--border); padding-top: 20px; margin-top: 20px;">
+        High variation = Unstable System.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Insights</div>
+    <h2>Consistency is <span>King</span></h2>
+    <div class="slide-content">
+      <p>A high average doesn't mean good performance if variation is huge.</p>
+      <div class="warning-box">
+        Delivery Co: Avg 2 days. 
+        But 1 day today, 10 days tomorrow. <strong>Customers will leave.</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Module 03</div>
+    <h2>Measures of <span>Dispersion</span></h2>
+    <div class="slide-content">
+      <p>The formal statistical measurement of spread.</p>
+      <h3 style="color: #fff; margin-top: 20px;">How far is the data from the center?</h3>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">03. Dispersion</div>
+    <h2>The <span>Range</span></h2>
+    <div class="slide-content">
+      <div class="formula">Highest Value − Lowest Value</div>
+      <p><strong>Sales:</strong> $200, $250, $300, $800</p>
+      <p><strong>Range:</strong> $600</p>
+      <p style="font-size: 1rem;">Limitation: Only uses two values; ignores the "meat" of the data.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">03. Dispersion</div>
+    <h2><span>Standard Deviation</span> (SD)</h2>
+    <div class="slide-content">
+      <p>The most important measure of dispersion.</p>
+      <div class="stat-card">
+        <p>"On average, how far are values from the mean?"</p>
+      </div>
+      <p>Low SD = Tightly Packed. High SD = Widely Spread.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visualizing Spread</div>
+    <h2>SD <span>in Action</span></h2>
+    <div class="slide-content">
+      <div class="grid">
+        <div class="stat-card">
+          <p><strong>Co A Sales:</strong></p>
+          <p>$100, $102, $98</p>
+          <p>Stable</p>
+        </div>
+        <div class="stat-card">
+          <p><strong>Co B Sales:</strong></p>
+          <p>$50, $150, $30</p>
+          <p>Risky</p>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Decision Making</div>
+    <h2>Using <span>SD</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Investors:</strong> Choose low SD for stability.</li>
+        <li><strong>Manufacturing:</strong> Monitor quality consistency.</li>
+        <li><strong>Data Science:</strong> Detect anomalies/outliers.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">The Warning</div>
+    <h2>The <span>Scale Trap</span></h2>
+    <div class="slide-content">
+      <div class="warning-box">
+        Never compare SD across different scales directly. Comparing the SD of <strong>Age</strong> vs the SD of <strong>Income</strong> makes no sense.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">03. Dispersion</div>
+    <h2>The <span>IQR</span></h2>
+    <div class="slide-content">
+      <p>Interquartile Range measures the spread of the middle 50% of the data.</p>
+      <div class="formula">IQR = Q3 - Q1</div>
+      <p>It completely ignores extreme outliers.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Scenario</div>
+    <h2>The <span>Robust</span> Measure</h2>
+    <div class="slide-content">
+      <p>If luxury mansions distort average housing prices...</p>
+      <div class="stat-card">
+        <h3 style="color: var(--accent);">IQR</h3>
+        <p>Gives the realistic spread of the typical market price.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Module 04</div>
+    <h2>Understanding <span>"Spread"</span></h2>
+    <div class="slide-content">
+      <p>Clarifying the terms: Variation vs. Dispersion vs. Spread.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Definitions</div>
+    <h2>Defining <span>The Terms</span></h2>
+    <div class="slide-content">
+      <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <tr style="border-bottom: 2px solid var(--accent);">
+          <th style="padding: 10px; text-align: left;">Term</th>
+          <th style="padding: 10px; text-align: left;">Focus</th>
+        </tr>
+        <tr><td><strong>Variation</strong></td><td>Difference between values.</td></tr>
+        <tr><td><strong>Dispersion</strong></td><td>Statistical measurement.</td></tr>
+        <tr><td><strong>Spread</strong></td><td>Visual or practical range.</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Real-World Case</div>
+    <h2>Analyzing <span>Cameroon Telecom</span></h2>
+    <div class="slide-content">
+      <ol>
+        <li><strong>Step 1 (Centrality):</strong> What is the avg monthly usage?</li>
+        <li><strong>Step 2 (Spread):</strong> Are most users close to that avg?</li>
+        <li><strong>Step 3 (Dispersion):</strong> Is usage predictable?</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Decision Table</div>
+    <h2>Why it <span>Matters</span></h2>
+    <div class="slide-content">
+      <div class="grid">
+        <ul>
+          <li><strong>Hiring:</strong> Median fairness.</li>
+          <li><strong>Investing:</strong> Low SD.</li>
+          <li><strong>Education:</strong> Consistency.</li>
+        </ul>
+        <ul>
+          <li><strong>Telecom:</strong> Stable Bandwidth.</li>
+          <li><strong>Healthcare:</strong> Recovery times.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Mental Model</div>
+    <h2>The <span>Classroom</span> Analogy</h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Mean:</strong> Class overall performance.</li>
+        <li><strong>Median:</strong> The typical student.</li>
+        <li><strong>Mode:</strong> Most common score.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Mental Model</div>
+    <h2>The <span>Classroom</span> Analogy</h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>SD:</strong> How consistent is the class?</li>
+        <li><strong>Range:</strong> Gap between best and worst.</li>
+        <li><strong>Variation:</strong> Are they similar or different?</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Advanced Concept</div>
+    <h2>Understanding <span>Skewness</span></h2>
+    <div class="slide-content">
+      <p>When mean and median pull apart, it tells us which way the data is "leaning."</p>
+      [Image showing Left-Skewed, Symmetrical, and Right-Skewed distributions with Mean and Median positions]
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Visualization</div>
+    <h2>The <span>Boxplot</span></h2>
+    <div class="slide-content">
+      <p>The Boxplot visualizes Median, IQR, and Outliers in one single graphic.</p>
+      
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Modern Data</div>
+    <h2>Statistics in <span>ML</span></h2>
+    <div class="slide-content">
+      <p>Machine learning models use <strong>Variation</strong> to learn patterns and <strong>Standard Deviation</strong> to normalize input features.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Professional Standards</div>
+    <h2>The <span>Golden Rule</span></h2>
+    <div class="slide-content">
+      <div class="stat-card">
+        <h3 style="color: var(--accent2);">"Never present a mean without a measure of spread."</h3>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Recap</div>
+    <h2>Final <span>Checklist</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>Identify the Center (Mean/Median/Mode).</li>
+        <li>Quantify the Differences (Variation).</li>
+        <li>Measure the Spread (SD/Range).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Insight</div>
+    <h2>Don't Trust <span>Averages</span></h2>
+    <div class="slide-content">
+      <p>You can drown in a river that is "on average" only 3 feet deep.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Action</div>
+    <h2>The <span>Challenge</span></h2>
+    <div class="slide-content">
+      <div class="stat-card">
+        <p>Look at your last project. Find the mean. Now find the standard deviation. Does the story change?</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">End of Lesson</div>
+    <h2>Mastered <span>The Basics</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>Data tells a story. You now have the vocabulary to read it.</p>
+      <div style="margin-top: 40px;">
+        <button class="nav-btn" style="width: auto; border-radius: 8px; padding: 0 40px;" onclick="location.reload()">RESTART MODULE</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="move(-1)">←</button>
+  <button class="nav-btn" onclick="move(1)">→</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const carousel = document.getElementById('carousel');
+  const progText = document.getElementById('prog-text');
+
+  function move(dir) {
+    currentSlide += dir;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide > slides.length - 1) currentSlide = slides.length - 1;
+    
+    carousel.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    progText.textContent = `Slide ${currentSlide + 1} / ${slides.length}`;
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') move(1);
+    if (e.key === 'ArrowLeft') move(-1);
+  });
+</script>
+
+</body>
+</html>
