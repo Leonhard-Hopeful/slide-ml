@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amazon Business EDA Masterclass</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050508;
+    --surface: #11111a;
+    --surface2: #1a1a26;
+    --border: #2d2d3f;
+    --accent: #5ec8ff; 
+    --accent2: #ffdd57; 
+    --text: #ffffff;
+    --muted: #a0a0b8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
+
+  .carousel-wrapper { width: 100vw; height: 100vh; overflow: hidden; position: relative; }
+
+  .carousel-container { 
+    height: 100vh; 
+    display: flex; 
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    will-change: transform;
+  }
+
+  .slide { 
+    min-width: 100vw; 
+    width: 100vw;
+    height: 100vh; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 40px 10%; 
+    position: relative; 
+    border-right: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .slide-label { font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--accent); text-transform: uppercase; letter-spacing: 5px; margin-bottom: 20px; }
+  h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.1; }
+  h2 span { color: var(--accent); }
+  
+  .slide-content { max-width: 1000px; width: 100%; font-size: 1.4rem; color: var(--muted); line-height: 1.6; }
+
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 30px; margin: 20px 0; width: 100%; }
+  .stat-card h3 { color: #fff; margin-bottom: 15px; font-size: 1.8rem; }
+  
+  .warning-box { background: rgba(255, 221, 87, 0.05); border-left: 4px solid var(--accent2); padding: 20px; border-radius: 4px; margin: 20px 0; color: var(--accent2); font-size: 1.2rem; }
+  
+  .nav-controls { position: fixed; bottom: 40px; right: 40px; display: flex; gap: 15px; z-index: 100; }
+  .nav-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.3s; font-size: 1.2rem; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  
+  .progress-indicator { position: fixed; bottom: 40px; left: 40px; font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--muted); }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
+  ul { list-style: none; }
+  li { margin-bottom: 10px; display: flex; align-items: flex-start; gap: 10px; }
+  li::before { content: "→"; color: var(--accent); font-weight: bold; }
+  
+  .formula { font-family: 'Space Mono', monospace; background: #000; padding: 15px; border-radius: 8px; color: var(--accent); text-align: left; margin: 15px 0; font-size: 0.9rem; }
+
+  .restart-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 12px 40px; cursor: pointer; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 2px; transition: 0.3s; }
+  .restart-btn:hover { border-color: var(--accent); color: var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="progress-indicator" id="prog-text">Slide 1 / 40</div>
+
+<div class="carousel-wrapper">
+  <div class="carousel-container" id="carousel">
+  
+    <section class="slide">
+      <div class="slide-label">Business Intelligence</div>
+      <h2>Amazon <span>Sales EDA</span></h2>
+      <div class="slide-content" style="text-align: center;">
+        <p>Turning raw CSV data into a strategic business roadmap.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">The Objective</div>
+      <h2>The <span>EDA Goal</span></h2>
+      <div class="slide-content">
+        <p>We aren't just cleaning data; we are identifying <strong>profit leaks</strong>, <strong>customer pain points</strong>, and <strong>growth levers</strong>.</p>
+        <div class="stat-card">
+          <p>"A business without EDA is like driving a car in the dark without headlights."</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Step 01</div>
+      <h2>Data <span>Acquisition</span></h2>
+      <div class="slide-content">
+        <p>The <strong>amazon.csv</strong> contains 1,465 unique products with details on pricing, categories, and reviews.</p>
+        <div class="formula">import pandas as pd<br>df = pd.read_csv('amazon.csv')</div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Data Integrity</div>
+      <h2>Cleaning <span>Currencies</span></h2>
+      <div class="slide-content">
+        <p>Prices are strings (₹). We must strip symbols to perform mathematical operations.</p>
+        <div class="formula">df['price'] = df['discounted_price'].str.replace('₹','').str.replace(',','').astype(float)</div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Data Integrity</div>
+      <h2>Cleaning <span>Ratings</span></h2>
+      <div class="slide-content">
+        <div class="warning-box">
+          <strong>Issue:</strong> Some ratings contain non-numeric characters like '|'.<br>
+          <strong>Fix:</strong> Use pd.to_numeric with errors='coerce'.
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Metric 01</div>
+      <h2>The <span>Price Mean</span></h2>
+      <div class="slide-content">
+        <p>Average Discounted Price: <strong>₹3,125</strong></p>
+        <p>But does this represent the typical product? Let's check the spread.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Metric 02</div>
+      <h2>The <span>Price Median</span></h2>
+      <div class="slide-content">
+        <p>Median Price: <strong>₹799</strong></p>
+        <div class="stat-card">
+          <h3 style="color: var(--accent);">Skew Detected!</h3>
+          <p>The Mean is 4x higher than the Median. High-end TVs are distorting the "average."</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Variation</div>
+      <h2>Standard <span>Deviation</span></h2>
+      <div class="slide-content">
+        <p>Price SD: <strong>₹6,944</strong></p>
+        <p>This massive SD indicates a huge variety in product types—from ₹39 cables to ₹77,000 electronics.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Categorization</div>
+      <h2>Main <span>Categories</span></h2>
+      <div class="slide-content">
+        <p>We split the category string to isolate the primary business units.</p>
+        <div class="formula">df['main_cat'] = df['category'].str.split('|').str[0]</div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Inventory</div>
+      <h2>The <span>Big Three</span></h2>
+      <div class="slide-content">
+        <ul>
+          <li>Electronics: 526 items</li>
+          <li>Computers: 453 items</li>
+          <li>Home & Kitchen: 448 items</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">The Strategy</div>
+      <h2>Discount <span>Analysis</span></h2>
+      <div class="slide-content">
+        <p>Overall Avg Discount: <strong>47.7%</strong></p>
+        <h3 style="color: #fff; margin-top: 20px;">Question: Are we over-discounting?</h3>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Insight</div>
+      <h2>Office <span>Products</span></h2>
+      <div class="slide-content">
+        <p>Avg Discount: <strong>12.3%</strong> | Avg Rating: <strong>4.3</strong></p>
+        <div class="stat-card">
+          <p>This is a <strong>Premium Category</strong>. Customers buy based on need/quality, not price cuts.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Insight</div>
+      <h2>Home <span>Improvement</span></h2>
+      <div class="slide-content">
+        <p>Avg Discount: <strong>57.5%</strong></p>
+        <div class="warning-box">
+          We are cutting prices by more than half. Is this profitable or a "race to the bottom"?
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Engagement</div>
+      <h2>Rating <span>Counts</span></h2>
+      <div class="slide-content">
+        <p>The "Typical" product has <strong>5,179</strong> reviews. The "Superstar" has <strong>426,973</strong>.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Step 02</div>
+      <h2>Visualizing <span>Distributions</span></h2>
+      <div class="slide-content">
+        <p>We use Histogram plots to see where the bulk of our sales happen.</p>
+        <div class="formula">sns.histplot(df['rating'], kde=True)</div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Observation</div>
+      <h2>The <span>4.0 Barrier</span></h2>
+      <div class="slide-content">
+        <p>Most products cluster between 4.0 and 4.4. Anything below 3.8 is a <strong>danger zone</strong> for Amazon SEO.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Correlation</div>
+      <h2>Discount vs <span>Rating</span></h2>
+      <div class="slide-content">
+        <p>Correlation: <strong>-0.15</strong></p>
+        <p>A slight negative trend: Higher discounts sometimes lead to slightly lower ratings (Perception of "Cheapness").</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Step 03</div>
+      <h2>Outlier <span>Detection</span></h2>
+      <div class="slide-content">
+        <p>Identify products with ₹1,00,000+ prices. Are they legitimate or data errors?</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Outlier Fix</div>
+      <h2>Winsorizing <span>Data</span></h2>
+      <div class="slide-content">
+        <p>We cap extreme values to prevent them from breaking our machine learning models later.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Question</div>
+      <h2>Best <span>Value for Money</span>?</h2>
+      <div class="slide-content">
+        <p>We look for: <strong>High Rating (>4.3)</strong> + <strong>Low Price (&lt;₹500)</strong>.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Insight</div>
+      <h2>Cables & <span>Accessories</span></h2>
+      <div class="slide-content">
+        <p>This sub-category has the highest review volume but the lowest margins. It's a <strong>Traffic Driver</strong>, not a profit driver.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Text Mining</div>
+      <h2>Review <span>Analysis</span></h2>
+      <div class="slide-content">
+        <p>Common words in 5-star reviews: <strong>"Value", "Quality", "Fast"</strong>.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Text Mining</div>
+      <h2>Review <span>Analysis</span></h2>
+      <div class="slide-content">
+        <p>Common words in 1-star reviews: <strong>"Worst", "Waste", "Stopped working"</strong>.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Step 04</div>
+      <h2>Feature <span>Engineering</span></h2>
+      <div class="slide-content">
+        <p>Creating a <strong>'Review Intensity'</strong> metric: Rating Count / Time since launch.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Business Case</div>
+      <h2>The <span>Bimodal Peak</span></h2>
+      <div class="slide-content">
+        <p>Some categories have two peaks: A "Budget" peak and a "Premium" peak. Marketing must target both differently.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Visualizing Spread</div>
+      <h2>Boxplots for <span>Categories</span></h2>
+      <div class="slide-content">
+        <p>Electronics has a huge range (High dispersion). Office Products is tightly packed (Consistency).</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Relationship</div>
+      <h2>Price vs <span>Volume</span></h2>
+      <div class="slide-content">
+        <p>Log-Linear Relationship: As price doubles, rating count usually drops by 30%.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Risk Management</div>
+      <h2>The <span>"Dead Zone"</span></h2>
+      <div class="slide-content">
+        <div class="warning-box">
+          Products with &lt; 100 ratings and &lt; 3.5 stars. <strong>Recommendation:</strong> Delist these immediately.
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">ML Prep</div>
+      <h2>Normalization</h2>
+      <div class="slide-content">
+        <p>Scaling all values between 0 and 1 so that Price doesn't "outvote" Rating in our models.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Advanced</div>
+      <h2>Skewness <span>Correction</span></h2>
+      <div class="slide-content">
+        <p>Using Log-Transformation on 'Actual Price' to make it follow a Normal Distribution.</p>
+        <div class="stat-card">
+          <p>Right-Skewed price distribution becomes a Bell Curve after Log-Transform.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Market Share</div>
+      <h2>The <span>Pareto Principle</span></h2>
+      <div class="slide-content">
+        <p>Top 20% of products account for 80% of total rating counts. Focus your SEO efforts here.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Dashboarding</div>
+      <h2>KPIs <span>To Watch</span></h2>
+      <div class="grid">
+        <div class="stat-card"><h3>Margin %</h3><p>Actual vs Discounted</p></div>
+        <div class="stat-card"><h3>Sentiment</h3><p>Review Keywords</p></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Dashboarding</div>
+      <h2>KPIs <span>To Watch</span></h2>
+      <div class="grid">
+        <div class="stat-card"><h3>Velocity</h3><p>Rating Growth</p></div>
+        <div class="stat-card"><h3>Health</h3><p>Return Rate Proxy</p></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Recommendation</div>
+      <h2>Strategy <span>Alpha</span></h2>
+      <div class="slide-content">
+        <p>Increase prices on Office Products by 5%. The low price-elasticity suggests ratings won't drop.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Recommendation</div>
+      <h2>Strategy <span>Beta</span></h2>
+      <div class="slide-content">
+        <p>Bundle "Cables" with "Electronics." Use the high-volume low-margin items to boost high-margin sales.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Recommendation</div>
+      <h2>Strategy <span>Gamma</span></h2>
+      <div class="slide-content">
+        <p>Fix "Home Improvement" logistics. High discounts are failing to secure 4.5+ ratings.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Data Viz</div>
+      <h2>The <span>Heatmap</span></h2>
+      <div class="slide-content">
+        <p>Correlation heatmap reveals that <strong>Rating Count</strong> and <strong>Discount %</strong> are barely related.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Summary</div>
+      <h2>Final <span>Checklist</span></h2>
+      <div class="slide-content">
+        <ul>
+          <li>Clean the strings (Step 1).</li>
+          <li>Check for outliers (Step 2).</li>
+          <li>Compare Mean vs Median (Step 3).</li>
+          <li>Analyze Category Variance (Step 4).</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Future Work</div>
+      <h2>Predictive <span>Modeling</span></h2>
+      <div class="slide-content">
+        <p>Next step: Build a model to predict a product's success based on its launch category and discount.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-label">Completion</div>
+      <h2>EDA <span>Mastered</span></h2>
+      <div class="slide-content" style="text-align: center;">
+        <p>You have transformed raw numbers into a competitive business advantage.</p>
+        <div style="margin-top: 40px;">
+          <button class="restart-btn" onclick="restartDeck()">RESTART DECK</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="move(-1)">←</button>
+  <button class="nav-btn" onclick="move(1)">→</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const carousel = document.getElementById('carousel');
+  const progText = document.getElementById('prog-text');
+
+  // Set container width dynamically based on actual slide count
+  carousel.style.width = (total * 100) + 'vw';
+
+  function updateSlide() {
+    carousel.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    progText.textContent = `Slide ${currentSlide + 1} / ${total}`;
+  }
+
+  function move(dir) {
+    currentSlide += dir;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide > total - 1) currentSlide = total - 1;
+    updateSlide();
+  }
+
+  function restartDeck() {
+    currentSlide = 0;
+    updateSlide();
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') move(1);
+    if (e.key === 'ArrowLeft') move(-1);
+  });
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) move(diff > 0 ? 1 : -1);
+  });
+
+  // Initialize
+  updateSlide();
+</script>
+
+</body>
+</html>

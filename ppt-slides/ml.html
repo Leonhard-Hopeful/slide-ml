@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ML Strategy & Engineering Masterclass</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050508;
+    --surface: #11111a;
+    --surface2: #1a1a26;
+    --border: #2d2d3f;
+    --accent: #7fff6e; /* Engineering Green */
+    --accent2: #ffdd57; /* Warning Yellow */
+    --accent3: #5ec8ff; /* Info Blue */
+    --text: #ffffff;
+    --muted: #a0a0b8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: 'Syne', sans-serif; }
+
+  .carousel-container { height: 100vh; width: 100vw; display: flex; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+
+  .slide { min-width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px 10%; position: relative; border-right: 1px solid var(--border); }
+
+  .slide-label { font-family: 'Space Mono', monospace; font-size: 0.9rem; color: var(--accent); text-transform: uppercase; letter-spacing: 5px; margin-bottom: 20px; }
+  h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; text-align: center; margin-bottom: 25px; line-height: 1.1; }
+  h2 span { color: var(--accent); }
+  
+  .slide-content { max-width: 1000px; width: 100%; font-size: 1.3rem; color: var(--muted); line-height: 1.6; }
+
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 30px; margin: 20px 0; width: 100%; }
+  .stat-card h3 { color: #fff; margin-bottom: 10px; font-size: 1.6rem; }
+  
+  .warning-box { background: rgba(255, 221, 87, 0.05); border-left: 4px solid var(--accent2); padding: 20px; border-radius: 4px; margin: 20px 0; color: var(--accent2); font-size: 1.1rem; }
+  
+  .nav-controls { position: fixed; bottom: 40px; right: 40px; display: flex; gap: 15px; z-index: 100; }
+  .nav-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.3s; }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  
+  .progress-indicator { position: fixed; bottom: 40px; left: 40px; font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--muted); }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
+  ul { list-style: none; }
+  li { margin-bottom: 10px; display: flex; align-items: flex-start; gap: 10px; }
+  li::before { content: "→"; color: var(--accent); font-weight: bold; }
+  
+  .code-snippet { font-family: 'Space Mono', monospace; background: #000; padding: 15px; border-radius: 8px; color: var(--accent3); margin: 15px 0; font-size: 0.85rem; border: 1px solid #222; }
+</style>
+</head>
+<body>
+
+<div class="progress-indicator" id="prog-text">Slide 1 / 30</div>
+
+<div class="carousel-container" id="carousel">
+  
+  <section class="slide">
+    <div class="slide-label">Engineering Leadership</div>
+    <h2>Machine Learning <span>Mastery</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>A Senior Engineer’s Guide to AI Strategy, Value, and Implementation.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">The Core</div>
+    <h2>What is <span>ML?</span></h2>
+    <div class="slide-content">
+      <p>Traditional Software: <strong>Data + Rules = Output</strong>.</p>
+      <p>Machine Learning: <strong>Data + Output = Rules</strong>.</p>
+      <div class="stat-card">
+        <p>ML is the science of teaching computers to learn patterns from data without being explicitly programmed for every scenario.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">The Hierarchy</div>
+    <h2>Levels of <span>AI Evolution</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li><strong>Level 1: Narrow AI (ANI)</strong> - Excels at one task (e.g., Chess, Recommendations).</li>
+        <li><strong>Level 2: General AI (AGI)</strong> - Human-level reasoning across all domains (Theoretical).</li>
+        <li><strong>Level 3: Super AI (ASI)</strong> - Surpassing human intellect (Speculative).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Business Value</div>
+    <h2>Why <span>Invest?</span></h2>
+    <div class="slide-content">
+      <div class="grid">
+        <div class="stat-card"><h3>Efficiency</h3><p>Automating high-volume cognitive tasks.</p></div>
+        <div class="stat-card"><h3>Prediction</h3><p>Anticipating market shifts before they happen.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Categorization</div>
+    <h2><span>Supervised</span> Learning</h2>
+    <div class="slide-content">
+      <p>Learning from labeled data. We show the model the "correct answer."</p>
+      <div class="code-snippet">Model(Features) -> Prediction vs. Ground Truth Label</div>
+      <p>Examples: Spam detection, Price prediction, Image classification.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Categorization</div>
+    <h2><span>Unsupervised</span> Learning</h2>
+    <div class="slide-content">
+      <p>Finding hidden patterns in unlabeled data.</p>
+      <ul>
+        <li><strong>Clustering:</strong> Grouping similar customers.</li>
+        <li><strong>Anomaly Detection:</strong> Finding "weird" credit card swipes.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Categorization</div>
+    <h2><span>Reinforcement</span> Learning</h2>
+    <div class="slide-content">
+      <p>Learning through Trial and Error (Reward-based).</p>
+      <div class="stat-card">
+        <p>Agent -> Action -> Environment -> Reward.</p>
+      </div>
+      <p>Used in: Robotics, AlphaGo, Autonomous Vehicles.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Decision Framework</div>
+    <h2>When to <span>Use ML</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>When rules are too complex to code manually (e.g., Face ID).</li>
+        <li>When the environment changes constantly (e.g., Stock trends).</li>
+        <li>When scale makes human intervention impossible (e.g., Millions of ads).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Strategic Restraint</div>
+    <h2>When <span>NOT to Use ML</span></h2>
+    <div class="slide-content">
+      <div class="warning-box">
+        <strong>Rule:</strong> If a simple <code>if-else</code> block or a basic spreadsheet formula works, do NOT build an ML model.
+      </div>
+      <p>Avoid ML when data is scarce, or when 100% explainability is required by law.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Reality Check</div>
+    <h2>Why <span>Models Fail</span></h2>
+    <div class="slide-content">
+      <p><strong>1. Data Drift:</strong> The world changes, but the model stays static.</p>
+      <p><strong>2. Poor Data Quality:</strong> "Garbage In, Garbage Out."</p>
+      <p><strong>3. Lack of Context:</strong> ML sees correlations, not causes.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Failure Modes</div>
+    <h2>The <span>Explainability</span> Gap</h2>
+    <div class="slide-content">
+      <p>Deep Learning models are often "Black Boxes." If a model denies a loan, can you explain <em>why</em>? If not, you face legal risk.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Ethics</div>
+    <h2>Algorithmic <span>Bias</span></h2>
+    <div class="slide-content">
+      <div class="warning-box">
+        Models reflect the biases of their training data. If your data is biased, your AI will automate that prejudice.
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Engineering</div>
+    <h2>The <span>Hidden Cost</span></h2>
+    <div class="slide-content">
+      <p>Writing the ML code is only 5% of the effort. The rest is Data Pipelines, Serving Infrastructure, and Monitoring.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">The Pipeline</div>
+    <h2>The <span>Standard Flow</span></h2>
+    <div class="slide-content">
+      <p>Define Problem → Data Collection → Cleaning → Feature Engineering → Training → Evaluation → Deployment.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Latest Trends</div>
+    <h2><span>Generative</span> AI & LLMs</h2>
+    <div class="slide-content">
+      <p>Moving from "Predictive" (What will happen?) to "Generative" (Create something new).</p>
+      <div class="stat-card">
+        <p>Transformers have revolutionized NLP, allowing machines to understand context over long sequences.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Latest Trends</div>
+    <h2><span>MLOps</span></h2>
+    <div class="slide-content">
+      <p>Bringing DevOps discipline to Machine Learning. Continuous Integration and Deployment for Models (CI/CD/CM).</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Latest Trends</div>
+    <h2><span>Edge</span> AI</h2>
+    <div class="slide-content">
+      <p>Running models locally on phones and IoT devices rather than the cloud. Improves privacy and reduces latency.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Latest Trends</div>
+    <h2>Low-Code / <span>No-Code</span> ML</h2>
+    <div class="slide-content">
+      <p>Democratizing AI. Business analysts building models via Drag-and-Drop interfaces (e.g., AutoML).</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Pitfalls</div>
+    <h2><span>Overfitting</span></h2>
+    <div class="slide-content">
+      <p>The model memorizes the training data but fails on new data.</p>
+      <div class="warning-box">It's like a student who memorizes the practice exam but fails the real test because the numbers changed.</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Pitfalls</div>
+    <h2><span>Underfitting</span></h2>
+    <div class="slide-content">
+      <p>The model is too simple to capture the pattern. Using a straight line to fit a complex curve.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">The Secret Sauce</div>
+    <h2><span>Feature</span> Engineering</h2>
+    <div class="slide-content">
+      <p>The most important part of ML. Transforming raw data into meaningful signals.</p>
+      <div class="code-snippet"># Example: Converting timestamp to 'Is_Weekend' flag</div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Success Measurement</div>
+    <h2>Accuracy is <span>A Trap</span></h2>
+    <div class="slide-content">
+      <p>In imbalanced data (e.g., Fraud), 99% accuracy might mean the model <em>never</em> detects fraud. Use <strong>Precision, Recall, and F1-Score</strong>.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Constraints</div>
+    <h2>ML is <span>Data Hungry</span></h2>
+    <div class="slide-content">
+      <p>Deep Learning usually requires millions of examples. For smaller datasets, stick to <strong>Random Forests</strong> or <strong>XGBoost</strong>.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Real World</div>
+    <h2>The <span>Cold Start</span></h2>
+    <div class="slide-content">
+      <p>How do you recommend products to a brand-new user with zero history? (Use content-based filtering or popular items).</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Social Impact</div>
+    <h2>AI <span>Augmentation</span></h2>
+    <div class="slide-content">
+      <p>ML won't replace engineers; engineers who use ML will replace those who don't.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Infrastructure</div>
+    <h2>The <span>GPU War</span></h2>
+    <div class="slide-content">
+      <p>Modern ML is limited by compute. The shift to TPUs and specialized AI chips is accelerating.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Frontier</div>
+    <h2><span>Multi-Modal</span> Models</h2>
+    <div class="slide-content">
+      <p>Models that process Text, Audio, and Video simultaneously to understand the world like humans do.</p>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Checklist</div>
+    <h2>Is your <span>Problem ML-Ready?</span></h2>
+    <div class="slide-content">
+      <ul>
+        <li>Do you have clean, labeled data?</li>
+        <li>Is the pattern repeatable?</li>
+        <li>Is there a clear metric for success?</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Philosophy</div>
+    <h2>Occam's <span>Razor</span></h2>
+    <div class="slide-content">
+      <div class="stat-card">
+        <h3>"The simplest explanation is usually the best."</h3>
+        <p>Before using a Neural Network, try a Linear Regression. You might be surprised.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-label">Finish Line</div>
+    <h2>Master the <span>Foundations</span></h2>
+    <div class="slide-content" style="text-align: center;">
+      <p>The tools change every 6 months. The mathematical logic stays forever.</p>
+      <div style="margin-top: 40px;">
+        <button class="nav-btn" style="width: auto; border-radius: 8px; padding: 0 40px;" onclick="location.reload()">RESTART DECK</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-controls">
+  <button class="nav-btn" onclick="move(-1)">←</button>
+  <button class="nav-btn" onclick="move(1)">→</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const carousel = document.getElementById('carousel');
+  const progText = document.getElementById('prog-text');
+
+  function move(dir) {
+    currentSlide += dir;
+    if (currentSlide < 0) currentSlide = 0;
+    if (currentSlide > slides.length - 1) currentSlide = slides.length - 1;
+    
+    carousel.style.transform = `translateX(-${currentSlide * 100}vw)`;
+    progText.textContent = `Slide ${currentSlide + 1} / ${slides.length}`;
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') move(1);
+    if (e.key === 'ArrowLeft') move(-1);
+  });
+</script>
+
+</body>
+</html>
