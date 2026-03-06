@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Streamlit for ML Beginners</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0b0f1a;
+    --surface: #111827;
+    --card: #161d2e;
+    --border: #1f2d42;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --accent3: #34d399;
+    --warn: #fb923c;
+    --red: #f87171;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --code-bg: #0d1117;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #0f172a 0%, #0b1623 60%, #071020 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(56,189,248,.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 30%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(129,140,248,.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-inner { max-width: 960px; margin: 0 auto; position: relative; }
+  .badge {
+    display: inline-block;
+    background: rgba(56,189,248,.12);
+    border: 1px solid rgba(56,189,248,.3);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: .08em;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  h1 span { color: var(--accent); }
+  .subtitle {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 580px;
+    margin-bottom: 32px;
+  }
+  .meta-row {
+    display: flex; gap: 24px; flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex; align-items: center; gap: 8px;
+    color: var(--muted); font-size: 13px;
+  }
+  .meta-item .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent3);
+  }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; max-width: 1200px; margin: 0 auto; }
+
+  /* ── SIDEBAR ── */
+  nav.sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    padding: 32px 0 32px 24px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 1px solid var(--border);
+  }
+  nav.sidebar::-webkit-scrollbar { width: 4px; }
+  nav.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .nav-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin: 20px 0 8px;
+  }
+  .nav-section-label:first-child { margin-top: 0; }
+  nav.sidebar a {
+    display: block;
+    padding: 6px 12px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    border-radius: 6px;
+    transition: all .2s;
+    border-left: 2px solid transparent;
+    margin-bottom: 2px;
+  }
+  nav.sidebar a:hover {
+    color: var(--text);
+    background: rgba(56,189,248,.06);
+    border-left-color: var(--accent);
+  }
+  nav.sidebar a.active {
+    color: var(--accent);
+    background: rgba(56,189,248,.08);
+    border-left-color: var(--accent);
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    flex: 1;
+    padding: 40px 48px;
+    min-width: 0;
+  }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 72px; }
+  .section-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(56,189,248,.1);
+    border: 1px solid rgba(56,189,248,.2);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 24px 0 10px;
+    color: var(--text);
+  }
+  p { color: #94a3b8; margin-bottom: 14px; }
+  p strong { color: var(--text); font-weight: 500; }
+
+  /* ── CODE BLOCK ── */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin: 16px 0;
+    overflow: hidden;
+  }
+  .code-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px;
+    background: rgba(255,255,255,.03);
+    border-bottom: 1px solid var(--border);
+  }
+  .code-lang {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: .06em;
+  }
+  .copy-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 3px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+  pre {
+    padding: 20px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  pre::-webkit-scrollbar { height: 4px; }
+  pre::-webkit-scrollbar-thumb { background: var(--border); }
+  /* Syntax colors */
+  .k { color: #c792ea; }   /* keyword */
+  .f { color: #82aaff; }   /* function */
+  .s { color: #c3e88d; }   /* string */
+  .c { color: #546e7a; font-style: italic; } /* comment */
+  .n { color: var(--accent); }  /* module/class */
+  .num { color: #f78c6c; }  /* number */
+  .b { color: var(--text); }   /* default */
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .callout .icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .callout.tip { background: rgba(52,211,153,.08); border: 1px solid rgba(52,211,153,.2); color: #a7f3d0; }
+  .callout.warn { background: rgba(251,146,60,.08); border: 1px solid rgba(251,146,60,.2); color: #fed7aa; }
+  .callout.info { background: rgba(56,189,248,.08); border: 1px solid rgba(56,189,248,.2); color: #bae6fd; }
+  .callout.try { background: rgba(129,140,248,.08); border: 1px solid rgba(129,140,248,.2); color: #c7d2fe; }
+
+  /* ── WIDGET GRID ── */
+  .widget-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    margin: 16px 0;
+  }
+  .widget-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    transition: border-color .2s;
+  }
+  .widget-card:hover { border-color: var(--accent2); }
+  .widget-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent2);
+    margin-bottom: 6px;
+  }
+  .widget-desc { font-size: 13px; color: var(--muted); }
+
+  /* ── INLINE CODE ── */
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    background: rgba(56,189,248,.08);
+    color: var(--accent);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  /* ── STEPS ── */
+  .steps { counter-reset: steps; }
+  .step {
+    display: flex; gap: 16px;
+    margin-bottom: 20px;
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 28px; height: 28px;
+    background: rgba(56,189,248,.12);
+    border: 1px solid rgba(56,189,248,.3);
+    color: var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .step-body { padding-top: 3px; }
+
+  /* ── ARCHITECTURE DIAGRAM ── */
+  .arch {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .arch-box {
+    background: rgba(56,189,248,.08);
+    border: 1px solid rgba(56,189,248,.25);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .arch-arrow {
+    color: var(--muted);
+    font-size: 20px;
+    padding: 0 12px;
+  }
+
+  /* ── PROJECT CARD ── */
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .proj-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid;
+  }
+  .proj-tag.beginner { color: var(--accent3); border-color: rgba(52,211,153,.3); }
+  .proj-tag.intermediate { color: var(--warn); border-color: rgba(251,146,60,.3); }
+
+  /* ── CHEATSHEET TABLE ── */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th {
+    background: rgba(56,189,248,.08);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: .06em;
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(31,45,66,.7);
+    font-size: 13px;
+    color: #94a3b8;
+    vertical-align: top;
+  }
+  td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent2);
+    white-space: nowrap;
+  }
+  tr:hover td { background: rgba(255,255,255,.015); }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap { margin: 32px 0 16px; }
+  .progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width .6s ease;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav.sidebar { display: none; }
+    main { padding: 24px 20px; }
+    header { padding: 40px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="badge">🚀 Hands-On Workshop</div>
+    <h1>Streamlit for <span>ML Beginners</span></h1>
+    <p class="subtitle">Build interactive ML inference apps from scratch — no web dev experience needed. Deploy your models with beautiful, live UIs in hours.</p>
+    <div class="meta-row">
+      <div class="meta-item"><span class="dot" style="background:var(--accent)"></span> Duration: ~3 hours</div>
+      <div class="meta-item"><span class="dot" style="background:var(--accent2)"></span> Level: Beginner</div>
+      <div class="meta-item"><span class="dot" style="background:var(--accent3)"></span> Python 3.8+</div>
+      <div class="meta-item"><span class="dot" style="background:var(--warn)"></span> 3 Mini Projects</div>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="nav-section-label">Setup</div>
+    <a href="#s0">Why Streamlit?</a>
+    <a href="#s1">Installation</a>
+
+    <div class="nav-section-label">Fundamentals</div>
+    <a href="#s2">Display & Text</a>
+    <a href="#s3">Input Widgets</a>
+    <a href="#s4">Layout</a>
+    <a href="#s5">Data & Charts</a>
+
+    <div class="nav-section-label">ML Core</div>
+    <a href="#s6">Model Loading</a>
+    <a href="#s7">Inference Flow</a>
+    <a href="#s8">File Uploads</a>
+
+    <div class="nav-section-label">Projects</div>
+    <a href="#s9">Project 1: Classifier</a>
+    <a href="#s10">Project 2: Image CNN</a>
+    <a href="#s11">Project 3: NLP</a>
+
+    <div class="nav-section-label">Reference</div>
+    <a href="#s12">Cheat Sheet</a>
+    <a href="#s13">Tips & Gotchas</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- ── 0. WHY STREAMLIT ── -->
+    <div class="section" id="s0">
+      <div class="section-header">
+        <span class="section-num">00</span>
+        <h2>Why Streamlit for ML?</h2>
+      </div>
+      <p>As ML engineers we spend most of our time in notebooks. But notebooks can't be shared with stakeholders, product teams, or clients. <strong>Streamlit bridges that gap</strong> — it turns Python scripts into shareable web apps with minimal friction.</p>
+
+      <div class="arch">
+        <div class="arch-box">Your Model<br/><span style="color:var(--muted);font-size:10px">.pkl / .pt / .h5</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-box">Streamlit App<br/><span style="color:var(--muted);font-size:10px">app.py</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-box">Interactive UI<br/><span style="color:var(--muted);font-size:10px">browser</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-box">Stakeholders<br/><span style="color:var(--muted);font-size:10px">share link</span></div>
+      </div>
+
+      <p>The core mental model: <strong>Streamlit re-runs your entire script top-to-bottom every time a user interacts with a widget.</strong> That's it. No callbacks, no state management boilerplate, no JavaScript.</p>
+
+      <div class="callout info">
+        <span class="icon">💡</span>
+        <div>This re-run model is a feature, not a bug. It makes reasoning about your app trivially simple. We'll learn how to cache expensive operations like model loading so this doesn't hurt performance.</div>
+      </div>
+    </div>
+
+    <!-- ── 1. INSTALLATION ── -->
+    <div class="section" id="s1">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2>Installation & First App</h2>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Create a virtual environment and install</strong>
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="b">python -m venv .venv
+source .venv/bin/activate   </span><span class="c"># Windows: .venv\Scripts\activate</span>
+<span class="b">pip install streamlit scikit-learn pandas numpy pillow</span></pre>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Create your first file</strong> — <code>app.py</code>
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">python — app.py</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="k">import</span> <span class="n">streamlit</span> <span class="k">as</span> <span class="b">st</span>
+
+<span class="b">st.</span><span class="f">title</span>(<span class="s">"My First ML App 🤖"</span>)
+<span class="b">st.</span><span class="f">write</span>(<span class="s">"Hello, Streamlit!"</span>)
+
+<span class="b">name = st.</span><span class="f">text_input</span>(<span class="s">"What's your name?"</span>)
+<span class="k">if</span> <span class="b">name:</span>
+    <span class="b">st.</span><span class="f">success</span>(<span class="k">f</span><span class="s">"Welcome, {name}! Let's build something cool."</span>)</pre>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Run it</strong>
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+              <pre><span class="b">streamlit run app.py</span></pre>
+            </div>
+            Your browser opens automatically at <code>localhost:8501</code>. Every time you save <code>app.py</code>, the app hot-reloads.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 2. DISPLAY & TEXT ── -->
+    <div class="section" id="s2">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <h2>Displaying Content</h2>
+      </div>
+      <p>Streamlit has display functions for every data type you'll encounter in ML work.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+        <pre><span class="k">import</span> <span class="n">streamlit</span> <span class="k">as</span> <span class="b">st</span>
+<span class="k">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="b">pd</span>
+<span class="k">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="b">np</span>
+
+<span class="c"># ── Text ──</span>
+<span class="b">st.</span><span class="f">title</span>(<span class="s">"Big Title"</span>)
+<span class="b">st.</span><span class="f">header</span>(<span class="s">"Section Header"</span>)
+<span class="b">st.</span><span class="f">subheader</span>(<span class="s">"Subheader"</span>)
+<span class="b">st.</span><span class="f">write</span>(<span class="s">"Works with strings, dataframes, dicts, figures — anything."</span>)
+<span class="b">st.</span><span class="f">markdown</span>(<span class="s">"**Bold**, *italic*, `code`, [link](https://streamlit.io)"</span>)
+<span class="b">st.</span><span class="f">code</span>(<span class="s">"print('hello')"</span>, language=<span class="s">"python"</span>)
+
+<span class="c"># ── Metrics (great for model scores) ──</span>
+<span class="b">st.</span><span class="f">metric</span>(label=<span class="s">"Model Accuracy"</span>, value=<span class="s">"94.2%"</span>, delta=<span class="s">"+1.3%"</span>)
+
+<span class="c"># ── Dataframes ──</span>
+<span class="b">df = pd.</span><span class="f">DataFrame</span>({<span class="s">"feature"</span>: [<span class="s">"age"</span>, <span class="s">"income"</span>], <span class="s">"importance"</span>: [<span class="num">0.4</span>, <span class="num">0.6</span>]})
+<span class="b">st.</span><span class="f">dataframe</span>(<span class="b">df</span>)            <span class="c"># interactive, sortable</span>
+<span class="b">st.</span><span class="f">table</span>(<span class="b">df</span>)                 <span class="c"># static table</span>
+
+<span class="c"># ── Status messages ──</span>
+<span class="b">st.</span><span class="f">success</span>(<span class="s">"Prediction complete!"</span>)
+<span class="b">st.</span><span class="f">error</span>(<span class="s">"Something went wrong."</span>)
+<span class="b">st.</span><span class="f">warning</span>(<span class="s">"Low confidence score."</span>)
+<span class="b">st.</span><span class="f">info</span>(<span class="s">"Upload a file to begin."</span>)</pre>
+      </div>
+    </div>
+
+    <!-- ── 3. INPUT WIDGETS ── -->
+    <div class="section" id="s3">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <h2>Input Widgets</h2>
+      </div>
+      <p>Every widget <strong>returns a value</strong> you can use directly in Python. When the user changes a widget, the script re-runs and the new value is available.</p>
+
+      <div class="widget-grid">
+        <div class="widget-card">
+          <div class="widget-name">st.slider()</div>
+          <div class="widget-desc">Numeric range — great for thresholds, confidence cutoffs, hyperparameters.</div>
+        </div>
+        <div class="widget-card">
+          <div class="widget-name">st.selectbox()</div>
+          <div class="widget-desc">Dropdown — choose model type, class label, feature set.</div>
+        </div>
+        <div class="widget-card">
+          <div class="widget-name">st.multiselect()</div>
+          <div class="widget-desc">Multi-choice — select features to include in inference.</div>
+        </div>
+        <div class="widget-card">
+          <div class="widget-name">st.number_input()</div>
+          <div class="widget-desc">Exact numeric entry — perfect for feature values.</div>
+        </div>
+        <div class="widget-card">
+          <div class="widget-name">st.text_input()</div>
+          <div class="widget-desc">Free text — NLP tasks, prompts, labels.</div>
+        </div>
+        <div class="widget-card">
+          <div class="widget-name">st.checkbox()</div>
+          <div class="widget-desc">Boolean toggle — show/hide extra info, enable preprocessing.</div>
+        </div>
+        <div class="widget-card">
+          <div class="widget-name">st.radio()</div>
+          <div class="widget-desc">Exclusive choice — pick inference mode or model variant.</div>
+        </div>
+        <div class="widget-card">
+          <div class="widget-name">st.button()</div>
+          <div class="widget-desc">Trigger action — run prediction, clear cache, download results.</div>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python — widgets in action</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+        <pre><span class="c"># Each widget returns its current value immediately</span>
+<span class="b">threshold   = st.</span><span class="f">slider</span>(<span class="s">"Confidence Threshold"</span>, <span class="num">0.0</span>, <span class="num">1.0</span>, <span class="num">0.5</span>, step=<span class="num">0.05</span>)
+<span class="b">model_name  = st.</span><span class="f">selectbox</span>(<span class="s">"Model"</span>, [<span class="s">"Random Forest"</span>, <span class="s">"XGBoost"</span>, <span class="s">"Logistic Reg"</span>])
+<span class="b">feature_age = st.</span><span class="f">number_input</span>(<span class="s">"Age"</span>, min_value=<span class="num">0</span>, max_value=<span class="num">120</span>, value=<span class="num">30</span>)
+<span class="b">run_explain = st.</span><span class="f">checkbox</span>(<span class="s">"Show SHAP explanations"</span>)
+
+<span class="c"># Values are just Python variables — use them anywhere</span>
+<span class="k">if</span> <span class="b">st.</span><span class="f">button</span>(<span class="s">"🔍 Predict"</span>):
+    <span class="b">result = my_model.</span><span class="f">predict_proba</span>([[<span class="b">feature_age</span>, ...]])
+    <span class="k">if</span> <span class="b">result[</span><span class="num">0</span><span class="b">][</span><span class="num">1</span><span class="b">] >= threshold:</span>
+        <span class="b">st.</span><span class="f">success</span>(<span class="s">"Positive prediction ✅"</span>)
+    <span class="k">else</span><span class="b">:</span>
+        <span class="b">st.</span><span class="f">error</span>(<span class="s">"Negative prediction ❌"</span>)</pre>
+      </div>
+    </div>
+
+    <!-- ── 4. LAYOUT ── -->
+    <div class="section" id="s4">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <h2>Layout & Structure</h2>
+      </div>
+      <p>Use columns, sidebars, tabs, and expanders to organise your ML app cleanly.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python — layout primitives</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+        <pre><span class="c"># ── Sidebar (inputs live here, results in main area) ──</span>
+<span class="k">with</span> <span class="b">st.</span><span class="f">sidebar</span>():
+    <span class="b">st.</span><span class="f">header</span>(<span class="s">"⚙️ Controls"</span>)
+    <span class="b">model = st.</span><span class="f">selectbox</span>(<span class="s">"Model"</span>, [<span class="s">"v1"</span>, <span class="s">"v2"</span>])
+    <span class="b">threshold = st.</span><span class="f">slider</span>(<span class="s">"Threshold"</span>, <span class="num">0.0</span>, <span class="num">1.0</span>, <span class="num">0.5</span>)
+
+<span class="c"># ── Columns ──</span>
+<span class="b">col1, col2, col3 = st.</span><span class="f">columns</span>([<span class="num">2</span>, <span class="num">1</span>, <span class="num">1</span>])   <span class="c"># relative widths</span>
+<span class="k">with</span> <span class="b">col1:</span>
+    <span class="b">st.</span><span class="f">metric</span>(<span class="s">"Accuracy"</span>, <span class="s">"94.2%"</span>)
+<span class="k">with</span> <span class="b">col2:</span>
+    <span class="b">st.</span><span class="f">metric</span>(<span class="s">"Precision"</span>, <span class="s">"91.0%"</span>)
+<span class="k">with</span> <span class="b">col3:</span>
+    <span class="b">st.</span><span class="f">metric</span>(<span class="s">"Recall"</span>, <span class="s">"88.5%"</span>)
+
+<span class="c"># ── Tabs ──</span>
+<span class="b">tab1, tab2, tab3 = st.</span><span class="f">tabs</span>([<span class="s">"📊 Results"</span>, <span class="s">"📈 Metrics"</span>, <span class="s">"🔍 Explain"</span>])
+<span class="k">with</span> <span class="b">tab1:</span>
+    <span class="b">st.</span><span class="f">write</span>(<span class="s">"Prediction results here"</span>)
+<span class="k">with</span> <span class="b">tab2:</span>
+    <span class="b">st.</span><span class="f">write</span>(<span class="s">"Confusion matrix, ROC curve"</span>)
+<span class="k">with</span> <span class="b">tab3:</span>
+    <span class="b">st.</span><span class="f">write</span>(<span class="s">"Feature importance / SHAP"</span>)
+
+<span class="c"># ── Expander (hide verbose outputs) ──</span>
+<span class="k">with</span> <span class="b">st.</span><span class="f">expander</span>(<span class="s">"🔎 See raw prediction scores"</span>):
+    <span class="b">st.</span><span class="f">json</span>({<span class="s">"class_0"</span>: <span class="num">0.12</span>, <span class="s">"class_1"</span>: <span class="num">0.88</span>})</pre>
+      </div>
+
+      <div class="callout tip">
+        <span class="icon">✅</span>
+        <div><strong>Pro pattern:</strong> Put all user inputs in <code>st.sidebar</code>. Keep the main area for outputs. This mirrors how dashboards and ML tools are typically designed — controls on the left, results on the right.</div>
+      </div>
+    </div>
+
+    <!-- ── 5. DATA & CHARTS ── -->
+    <div class="section" id="s5">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <h2>Data & Visualizations</h2>
+      </div>
+      <p>Streamlit integrates with Matplotlib, Plotly, Altair, and has built-in charting. For ML apps, <strong>Plotly is recommended</strong> — it produces interactive charts users can zoom and hover over.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python — charting examples</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+        <pre><span class="k">import</span> <span class="n">plotly.express</span> <span class="k">as</span> <span class="b">px</span>
+<span class="k">import</span> <span class="n">plotly.graph_objects</span> <span class="k">as</span> <span class="b">go</span>
+<span class="k">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="b">plt</span>
+
+<span class="c"># ── Plotly (interactive) ──</span>
+<span class="b">fig = px.</span><span class="f">bar</span>(
+    <span class="b">df</span>, x=<span class="s">"feature"</span>, y=<span class="s">"importance"</span>,
+    title=<span class="s">"Feature Importances"</span>, color=<span class="s">"importance"</span>,
+    color_continuous_scale=<span class="s">"blues"</span>
+)
+<span class="b">st.</span><span class="f">plotly_chart</span>(<span class="b">fig</span>, use_container_width=<span class="k">True</span>)
+
+<span class="c"># ── Confusion matrix heatmap ──</span>
+<span class="b">cm = [[</span><span class="num">50</span>, <span class="num">5</span><span class="b">], [</span><span class="num">3</span>, <span class="num">42</span><span class="b">]]</span>
+<span class="b">fig2 = px.</span><span class="f">imshow</span>(<span class="b">cm</span>, text_auto=<span class="k">True</span>, color_continuous_scale=<span class="s">"Blues"</span>,
+               labels=<span class="b">dict</span>(x=<span class="s">"Predicted"</span>, y=<span class="s">"Actual"</span>),
+               title=<span class="s">"Confusion Matrix"</span>)
+<span class="b">st.</span><span class="f">plotly_chart</span>(<span class="b">fig2</span>, use_container_width=<span class="k">True</span>)
+
+<span class="c"># ── ROC Curve ──</span>
+<span class="b">fig3 = go.</span><span class="f">Figure</span>()
+<span class="b">fig3.</span><span class="f">add_trace</span>(<span class="b">go.</span><span class="f">Scatter</span>(x=<span class="b">fpr</span>, y=<span class="b">tpr</span>, name=<span class="k">f</span><span class="s">"AUC={auc:.2f}"</span>))
+<span class="b">fig3.</span><span class="f">add_shape</span>(<span class="f">type</span>=<span class="s">"line"</span>, x0=<span class="num">0</span>, x1=<span class="num">1</span>, y0=<span class="num">0</span>, y1=<span class="num">1</span>, line=<span class="b">dict</span>(dash=<span class="s">"dash"</span>))
+<span class="b">st.</span><span class="f">plotly_chart</span>(<span class="b">fig3</span>, use_container_width=<span class="k">True</span>)
+
+<span class="c"># ── Matplotlib (still works) ──</span>
+<span class="b">fig4, ax = plt.</span><span class="f">subplots</span>()
+<span class="b">ax.</span><span class="f">hist</span>(<span class="b">predictions</span>, bins=<span class="num">30</span>)
+<span class="b">st.</span><span class="f">pyplot</span>(<span class="b">fig4</span>)</pre>
+      </div>
+    </div>
+
+    <!-- ── 6. MODEL LOADING ── -->
+    <div class="section" id="s6">
+      <div class="section-header">
+        <span class="section-num">06</span>
+        <h2>Loading Models — The Right Way</h2>
+      </div>
+      <p>Because Streamlit re-runs on every interaction, loading a model inside a plain function would reload it on every click. <strong><code>@st.cache_resource</code> is the fix</strong> — it runs the function once and caches the result in memory for the entire session.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python — caching patterns</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+        <pre><span class="k">import</span> <span class="n">streamlit</span> <span class="k">as</span> <span class="b">st</span>
+<span class="k">import</span> <span class="n">joblib</span>
+<span class="k">import</span> <span class="n">torch</span>
+<span class="k">from</span> <span class="n">transformers</span> <span class="k">import</span> <span class="b">pipeline</span>
+
+<span class="c"># ── @st.cache_resource
+# For: models, DB connections, API clients
+# Lives as long as the server is running ──</span>
+<span class="b">@st.</span><span class="f">cache_resource</span>
+<span class="k">def</span> <span class="f">load_sklearn_model</span>():
+    <span class="k">return</span> <span class="b">joblib.</span><span class="f">load</span>(<span class="s">"model.pkl"</span>)
+
+<span class="b">@st.</span><span class="f">cache_resource</span>
+<span class="k">def</span> <span class="f">load_pytorch_model</span>():
+    <span class="b">model = MyNet()</span>
+    <span class="b">model.</span><span class="f">load_state_dict</span>(<span class="b">torch.</span><span class="f">load</span>(<span class="s">"model.pth"</span>, map_location=<span class="s">"cpu"</span>))
+    <span class="b">model.</span><span class="f">eval</span>()
+    <span class="k">return</span> <span class="b">model</span>
+
+<span class="b">@st.</span><span class="f">cache_resource</span>
+<span class="k">def</span> <span class="f">load_hf_pipeline</span>():
+    <span class="k">return</span> <span class="f">pipeline</span>(<span class="s">"sentiment-analysis"</span>)
+
+<span class="c"># ── @st.cache_data
+# For: preprocessed datasets, DataFrames, API responses
+# Tied to input arguments — re-runs if args change ──</span>
+<span class="b">@st.</span><span class="f">cache_data</span>
+<span class="k">def</span> <span class="f">load_dataset</span>(<span class="b">path</span>):
+    <span class="k">return</span> <span class="b">pd.</span><span class="f">read_csv</span>(<span class="b">path</span>)
+
+<span class="c"># ── Usage — model loads only ONCE ──</span>
+<span class="b">model = </span><span class="f">load_sklearn_model</span>()
+<span class="b">st.</span><span class="f">write</span>(<span class="s">"Model loaded!"</span>, <span class="b">type</span>(<span class="b">model</span>).__name__)</pre>
+      </div>
+
+      <table>
+        <tr><th>Decorator</th><th>Use For</th><th>Cache Key</th></tr>
+        <tr><td>@st.cache_resource</td><td>Models, connections, heavy singletons</td><td>Function identity</td></tr>
+        <tr><td>@st.cache_data</td><td>DataFrames, computed results, API calls</td><td>Function + arguments</td></tr>
+      </table>
+    </div>
+
+    <!-- ── 7. INFERENCE FLOW ── -->
+    <div class="section" id="s7">
+      <div class="section-header">
+        <span class="section-num">07</span>
+        <h2>Inference Flow Pattern</h2>
+      </div>
+      <p>Here's the canonical pattern for every ML inference app. Follow this structure and your app will be clean and maintainable.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python — inference app template</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+        <pre><span class="k">import</span> <span class="n">streamlit</span> <span class="k">as</span> <span class="b">st</span>
+<span class="k">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="b">np</span>
+<span class="k">import</span> <span class="n">joblib</span>
+
+<span class="c"># ─────────────────────────────────
+# STEP 1 — Page config (must be first st call)
+# ─────────────────────────────────</span>
+<span class="b">st.</span><span class="f">set_page_config</span>(
+    page_title=<span class="s">"My ML App"</span>,
+    page_icon=<span class="s">"🤖"</span>,
+    layout=<span class="s">"wide"</span>
+)
+
+<span class="c"># ─────────────────────────────────
+# STEP 2 — Load model (cached)
+# ─────────────────────────────────</span>
+<span class="b">@st.</span><span class="f">cache_resource</span>
+<span class="k">def</span> <span class="f">load_model</span>():
+    <span class="k">return</span> <span class="b">joblib.</span><span class="f">load</span>(<span class="s">"model.pkl"</span>)
+
+<span class="b">model = </span><span class="f">load_model</span>()
+
+<span class="c"># ─────────────────────────────────
+# STEP 3 — Collect user inputs
+# ─────────────────────────────────</span>
+<span class="b">st.</span><span class="f">title</span>(<span class="s">"🏠 House Price Predictor"</span>)
+
+<span class="k">with</span> <span class="b">st.</span><span class="f">sidebar</span>():
+    <span class="b">st.</span><span class="f">header</span>(<span class="s">"Input Features"</span>)
+    <span class="b">area    = st.</span><span class="f">number_input</span>(<span class="s">"Area (sqft)"</span>, <span class="num">200</span>, <span class="num">10000</span>, <span class="num">1200</span>)
+    <span class="b">rooms   = st.</span><span class="f">slider</span>(<span class="s">"Bedrooms"</span>, <span class="num">1</span>, <span class="num">10</span>, <span class="num">3</span>)
+    <span class="b">age     = st.</span><span class="f">number_input</span>(<span class="s">"House Age (years)"</span>, <span class="num">0</span>, <span class="num">100</span>, <span class="num">10</span>)
+    <span class="b">predict = st.</span><span class="f">button</span>(<span class="s">"💰 Estimate Price"</span>, type=<span class="s">"primary"</span>)
+
+<span class="c"># ─────────────────────────────────
+# STEP 4 — Preprocess & predict
+# ─────────────────────────────────</span>
+<span class="k">if</span> <span class="b">predict:</span>
+    <span class="b">X = np.</span><span class="f">array</span>([[<span class="b">area, rooms, age</span>]])         <span class="c"># build feature vector</span>
+    
+    <span class="k">with</span> <span class="b">st.</span><span class="f">spinner</span>(<span class="s">"Running inference..."</span>):
+        <span class="b">price = model.</span><span class="f">predict</span>(<span class="b">X</span>)[<span class="num">0</span>]
+
+<span class="c"># ─────────────────────────────────
+# STEP 5 — Display results
+# ─────────────────────────────────</span>
+    <span class="b">st.</span><span class="f">metric</span>(<span class="s">"Estimated Price"</span>, <span class="k">f</span><span class="s">"${price:,.0f}"</span>)
+    <span class="b">st.</span><span class="f">balloons</span>()   <span class="c"># 🎈 fun touch</span></pre>
+      </div>
+
+      <div class="callout warn">
+        <span class="icon">⚠️</span>
+        <div><code>st.set_page_config()</code> must be the <strong>very first Streamlit call</strong> in your script — before any other <code>st.</code> call. Putting it elsewhere raises an error.</div>
+      </div>
+    </div>
+
+    <!-- ── 8. FILE UPLOADS ── -->
+    <div class="section" id="s8">
+      <div class="section-header">
+        <span class="section-num">08</span>
+        <h2>File Uploads & Image Input</h2>
+      </div>
+      <p>For image classifiers and NLP models, users need to upload their own data. <code>st.file_uploader</code> returns a file-like object you can pass directly to PIL, pandas, or NumPy.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python — file upload patterns</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+        <pre><span class="k">from</span> <span class="n">PIL</span> <span class="k">import</span> <span class="b">Image</span>
+<span class="k">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="b">pd</span>
+<span class="k">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="b">np</span>
+
+<span class="c"># ── Image upload ──</span>
+<span class="b">uploaded_img = st.</span><span class="f">file_uploader</span>(
+    <span class="s">"Upload an image"</span>,
+    type=[<span class="s">"jpg"</span>, <span class="s">"jpeg"</span>, <span class="s">"png"</span>]
+)
+
+<span class="k">if</span> <span class="b">uploaded_img:</span>
+    <span class="b">img = Image.</span><span class="f">open</span>(<span class="b">uploaded_img</span>)
+    <span class="b">st.</span><span class="f">image</span>(<span class="b">img</span>, caption=<span class="s">"Uploaded Image"</span>, use_column_width=<span class="k">True</span>)
+    
+    <span class="c"># Preprocess for your model</span>
+    <span class="b">img_array = np.</span><span class="f">array</span>(<span class="b">img.</span><span class="f">resize</span>((<span class="num">224</span>, <span class="num">224</span>))) / <span class="num">255.0</span>
+    <span class="b">img_batch = img_array[np.newaxis, ...]   </span><span class="c"># add batch dim</span>
+    <span class="b">preds     = model.</span><span class="f">predict</span>(<span class="b">img_batch</span>)
+
+<span class="c"># ── CSV upload ──</span>
+<span class="b">uploaded_csv = st.</span><span class="f">file_uploader</span>(<span class="s">"Upload CSV"</span>, type=[<span class="s">"csv"</span>])
+
+<span class="k">if</span> <span class="b">uploaded_csv:</span>
+    <span class="b">df = pd.</span><span class="f">read_csv</span>(<span class="b">uploaded_csv</span>)
+    <span class="b">st.</span><span class="f">dataframe</span>(<span class="b">df.</span><span class="f">head</span>())
+    
+    <span class="c"># Run batch inference</span>
+    <span class="b">preds = model.</span><span class="f">predict</span>(<span class="b">df[feature_cols]</span>)
+    <span class="b">df[</span><span class="s">"prediction"</span><span class="b">] = preds</span>
+    <span class="b">st.</span><span class="f">dataframe</span>(<span class="b">df</span>)
+    
+    <span class="c"># Let user download results</span>
+    <span class="b">st.</span><span class="f">download_button</span>(
+        <span class="s">"⬇️ Download Predictions"</span>,
+        <span class="b">df.</span><span class="f">to_csv</span>(index=<span class="k">False</span>),
+        <span class="s">"predictions.csv"</span>, <span class="s">"text/csv"</span>
+    )</pre>
+      </div>
+    </div>
+
+    <!-- ── PROJECT 1 ── -->
+    <div class="section" id="s9">
+      <div class="section-header">
+        <span class="section-num">09</span>
+        <h2>Project 1 — Tabular Classifier</h2>
+      </div>
+
+      <div class="project-card">
+        <div class="project-title">
+          🌸 Iris Species Classifier
+          <span class="proj-tag beginner">Beginner</span>
+        </div>
+        <p style="color:var(--muted);font-size:14px;margin-bottom:0">Train a Random Forest on Iris, then build a Streamlit app where users adjust feature sliders to predict the species in real-time.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python — iris_app.py</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+        <pre><span class="k">import</span> <span class="n">streamlit</span> <span class="k">as</span> <span class="b">st</span>
+<span class="k">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="b">np</span>
+<span class="k">import</span> <span class="n">plotly.express</span> <span class="k">as</span> <span class="b">px</span>
+<span class="k">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="b">pd</span>
+<span class="k">from</span> <span class="n">sklearn.datasets</span> <span class="k">import</span> <span class="b">load_iris</span>
+<span class="k">from</span> <span class="n">sklearn.ensemble</span> <span class="k">import</span> <span class="b">RandomForestClassifier</span>
+
+<span class="b">st.</span><span class="f">set_page_config</span>(page_title=<span class="s">"Iris Classifier"</span>, page_icon=<span class="s">"🌸"</span>, layout=<span class="s">"wide"</span>)
+
+<span class="b">@st.</span><span class="f">cache_resource</span>
+<span class="k">def</span> <span class="f">train_model</span>():
+    <span class="b">iris = </span><span class="f">load_iris</span>()
+    <span class="b">clf = </span><span class="f">RandomForestClassifier</span>(n_estimators=<span class="num">100</span>, random_state=<span class="num">42</span>)
+    <span class="b">clf.</span><span class="f">fit</span>(<span class="b">iris.data, iris.target</span>)
+    <span class="k">return</span> <span class="b">clf, iris</span>
+
+<span class="b">model, iris = </span><span class="f">train_model</span>()
+<span class="b">CLASSES = iris.target_names</span>
+
+<span class="b">st.</span><span class="f">title</span>(<span class="s">"🌸 Iris Species Classifier"</span>)
+<span class="b">st.</span><span class="f">markdown</span>(<span class="s">"Adjust the sliders to predict the iris species in real-time."</span>)
+
+<span class="c"># ── Inputs ──</span>
+<span class="k">with</span> <span class="b">st.</span><span class="f">sidebar</span>():
+    <span class="b">st.</span><span class="f">header</span>(<span class="s">"🔧 Feature Inputs"</span>)
+    <span class="b">sl = st.</span><span class="f">slider</span>(<span class="s">"Sepal Length (cm)"</span>, <span class="num">4.0</span>, <span class="num">8.0</span>, <span class="num">5.4</span>)
+    <span class="b">sw = st.</span><span class="f">slider</span>(<span class="s">"Sepal Width (cm)"</span>,  <span class="num">2.0</span>, <span class="num">4.5</span>, <span class="num">3.0</span>)
+    <span class="b">pl = st.</span><span class="f">slider</span>(<span class="s">"Petal Length (cm)"</span>, <span class="num">1.0</span>, <span class="num">7.0</span>, <span class="num">4.0</span>)
+    <span class="b">pw = st.</span><span class="f">slider</span>(<span class="s">"Petal Width (cm)"</span>,  <span class="num">0.1</span>, <span class="num">2.5</span>, <span class="num">1.2</span>)
+
+<span class="c"># ── Real-time prediction (no button needed!) ──</span>
+<span class="b">X = np.</span><span class="f">array</span>([[<span class="b">sl, sw, pl, pw</span>]])
+<span class="b">probs = model.</span><span class="f">predict_proba</span>(<span class="b">X</span>)[<span class="num">0</span>]
+<span class="b">pred  = CLASSES[np.</span><span class="f">argmax</span>(<span class="b">probs</span>)]
+
+<span class="c"># ── Show results ──</span>
+<span class="b">col1, col2 = st.</span><span class="f">columns</span>([<span class="num">1</span>, <span class="num">2</span>])
+
+<span class="k">with</span> <span class="b">col1:</span>
+    <span class="b">st.</span><span class="f">subheader</span>(<span class="s">"Prediction"</span>)
+    <span class="b">st.</span><span class="f">metric</span>(<span class="s">"Species"</span>, <span class="b">pred.</span><span class="f">capitalize</span>())
+    <span class="b">st.</span><span class="f">metric</span>(<span class="s">"Confidence"</span>, <span class="k">f</span><span class="s">"{max(probs):.1%}"</span>)
+
+<span class="k">with</span> <span class="b">col2:</span>
+    <span class="b">prob_df = pd.</span><span class="f">DataFrame</span>({
+        <span class="s">"Species"</span>: <span class="b">CLASSES</span>, <span class="s">"Probability"</span>: <span class="b">probs</span>
+    })
+    <span class="b">fig = px.</span><span class="f">bar</span>(<span class="b">prob_df</span>, x=<span class="s">"Species"</span>, y=<span class="s">"Probability"</span>,
+                color=<span class="s">"Probability"</span>, color_continuous_scale=<span class="s">"viridis"</span>,
+                range_y=[<span class="num">0</span>, <span class="num">1</span>])
+    <span class="b">st.</span><span class="f">plotly_chart</span>(<span class="b">fig</span>, use_container_width=<span class="k">True</span>)</pre>
+      </div>
+
+      <div class="callout try">
+        <span class="icon">🎯</span>
+        <div><strong>Try it:</strong> Notice how there's no button — the prediction updates live as sliders move. This is possible because Streamlit re-runs on every widget change, and the model is cached so it's instant.</div>
+      </div>
+    </div>
+
+    <!-- ── PROJECT 2 ── -->
+    <div class="section" id="s10">
+      <div class="section-header">
+        <span class="section-num">10</span>
+        <h2>Project 2 — Image Classifier</h2>
+      </div>
+
+      <div class="project-card">
+        <div class="project-title">
+          🖼️ Image Classifier with Upload
+          <span class="proj-tag intermediate">Intermediate</span>
+        </div>
+        <p style="color:var(--muted);font-size:14px;margin-bottom:0">Accept user image uploads, preprocess for a CNN (PyTorch/TF), run inference, and display top-K predictions with a confidence bar chart.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python — image_classifier_app.py</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+        <pre><span class="k">import</span> <span class="n">streamlit</span> <span class="k">as</span> <span class="b">st</span>
+<span class="k">import</span> <span class="n">torch</span>
+<span class="k">import</span> <span class="n">torchvision.transforms</span> <span class="k">as</span> <span class="b">T</span>
+<span class="k">import</span> <span class="n">torchvision.models</span> <span class="k">as</span> <span class="b">models</span>
+<span class="k">from</span> <span class="n">PIL</span> <span class="k">import</span> <span class="b">Image</span>
+<span class="k">import</span> <span class="n">plotly.express</span> <span class="k">as</span> <span class="b">px</span>
+<span class="k">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="b">pd</span>
+<span class="k">import</span> <span class="n">json</span>
+
+<span class="b">st.</span><span class="f">set_page_config</span>(page_title=<span class="s">"Image Classifier"</span>, page_icon=<span class="s">"🖼️"</span>, layout=<span class="s">"wide"</span>)
+
+<span class="b">@st.</span><span class="f">cache_resource</span>
+<span class="k">def</span> <span class="f">load_model</span>():
+    <span class="b">model = models.</span><span class="f">mobilenet_v3_small</span>(pretrained=<span class="k">True</span>)
+    <span class="b">model.</span><span class="f">eval</span>()
+    <span class="k">return</span> <span class="b">model</span>
+
+<span class="b">@st.</span><span class="f">cache_data</span>
+<span class="k">def</span> <span class="f">load_labels</span>():
+    <span class="k">with</span> <span class="f">open</span>(<span class="s">"imagenet_labels.json"</span>) <span class="k">as</span> <span class="b">f:</span>
+        <span class="k">return</span> <span class="b">json.</span><span class="f">load</span>(<span class="b">f</span>)
+
+<span class="b">TRANSFORM = T.</span><span class="f">Compose</span>([
+    <span class="b">T.</span><span class="f">Resize</span>(<span class="num">256</span>), <span class="b">T.</span><span class="f">CenterCrop</span>(<span class="num">224</span>),
+    <span class="b">T.</span><span class="f">ToTensor</span>(),
+    <span class="b">T.</span><span class="f">Normalize</span>([<span class="num">0.485</span>, <span class="num">0.456</span>, <span class="num">0.406</span>], [<span class="num">0.229</span>, <span class="num">0.224</span>, <span class="num">0.225</span>])
+])
+
+<span class="b">model = </span><span class="f">load_model</span>()
+<span class="b">labels = </span><span class="f">load_labels</span>()
+
+<span class="b">st.</span><span class="f">title</span>(<span class="s">"🖼️ Image Classifier"</span>)
+<span class="b">top_k = st.</span><span class="f">sidebar.slider</span>(<span class="s">"Top-K Results"</span>, <span class="num">3</span>, <span class="num">10</span>, <span class="num">5</span>)
+
+<span class="b">uploaded = st.</span><span class="f">file_uploader</span>(<span class="s">"Upload an image"</span>, type=[<span class="s">"jpg"</span>, <span class="s">"png"</span>, <span class="s">"jpeg"</span>])
+
+<span class="k">if</span> <span class="b">uploaded:</span>
+    <span class="b">img = Image.</span><span class="f">open</span>(<span class="b">uploaded</span>).<span class="f">convert</span>(<span class="s">"RGB"</span>)
+    <span class="b">col1, col2 = st.</span><span class="f">columns</span>([<span class="num">1</span>, <span class="num">2</span>])
+    
+    <span class="k">with</span> <span class="b">col1:</span>
+        <span class="b">st.</span><span class="f">image</span>(<span class="b">img</span>, caption=<span class="s">"Input"</span>, use_column_width=<span class="k">True</span>)
+    
+    <span class="k">with</span> <span class="b">col2:</span>
+        <span class="k">with</span> <span class="b">st.</span><span class="f">spinner</span>(<span class="s">"Classifying..."</span>):
+            <span class="b">tensor = </span><span class="f">TRANSFORM</span>(<span class="b">img</span>).<span class="f">unsqueeze</span>(<span class="num">0</span>)
+            <span class="k">with</span> <span class="b">torch.</span><span class="f">no_grad</span>():
+                <span class="b">out    = model(tensor)</span>
+                <span class="b">probs  = torch.</span><span class="f">softmax</span>(<span class="b">out[</span><span class="num">0</span><span class="b">]</span>, dim=<span class="num">0</span>)
+                <span class="b">top_p, top_i = torch.</span><span class="f">topk</span>(<span class="b">probs, top_k</span>)
+        
+        <span class="b">results = pd.</span><span class="f">DataFrame</span>({
+            <span class="s">"Class"</span>: [<span class="b">labels[i.item()]</span> <span class="k">for</span> <span class="b">i</span> <span class="k">in</span> <span class="b">top_i</span>],
+            <span class="s">"Confidence"</span>: [<span class="b">p.item()</span> <span class="k">for</span> <span class="b">p</span> <span class="k">in</span> <span class="b">top_p</span>]
+        })
+        <span class="b">st.</span><span class="f">subheader</span>(<span class="s">"Top Predictions"</span>)
+        <span class="b">fig = px.</span><span class="f">bar</span>(<span class="b">results</span>, x=<span class="s">"Confidence"</span>, y=<span class="s">"Class"</span>,
+                    orientation=<span class="s">"h"</span>, range_x=[<span class="num">0</span>, <span class="num">1</span>])
+        <span class="b">st.</span><span class="f">plotly_chart</span>(<span class="b">fig</span>, use_container_width=<span class="k">True</span>)</pre>
+      </div>
+    </div>
+
+    <!-- ── PROJECT 3 ── -->
+    <div class="section" id="s11">
+      <div class="section-header">
+        <span class="section-num">11</span>
+        <h2>Project 3 — NLP Sentiment App</h2>
+      </div>
+
+      <div class="project-card">
+        <div class="project-title">
+          💬 Sentiment Analyzer
+          <span class="proj-tag intermediate">Intermediate</span>
+        </div>
+        <p style="color:var(--muted);font-size:14px;margin-bottom:0">Use a Hugging Face pipeline to analyze sentiment on free text or a batch of uploaded reviews, with an interactive results dashboard.</p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">python — sentiment_app.py</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+        <pre><span class="k">import</span> <span class="n">streamlit</span> <span class="k">as</span> <span class="b">st</span>
+<span class="k">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="b">pd</span>
+<span class="k">import</span> <span class="n">plotly.express</span> <span class="k">as</span> <span class="b">px</span>
+<span class="k">from</span> <span class="n">transformers</span> <span class="k">import</span> <span class="b">pipeline</span>
+
+<span class="b">st.</span><span class="f">set_page_config</span>(page_title=<span class="s">"Sentiment Analyzer"</span>, page_icon=<span class="s">"💬"</span>, layout=<span class="s">"wide"</span>)
+
+<span class="b">@st.</span><span class="f">cache_resource</span>
+<span class="k">def</span> <span class="f">load_pipeline</span>():
+    <span class="k">return</span> <span class="f">pipeline</span>(<span class="s">"sentiment-analysis"</span>,
+                    model=<span class="s">"distilbert-base-uncased-finetuned-sst-2-english"</span>)
+
+<span class="b">classifier = </span><span class="f">load_pipeline</span>()
+
+<span class="b">st.</span><span class="f">title</span>(<span class="s">"💬 Sentiment Analyzer"</span>)
+<span class="b">tab1, tab2 = st.</span><span class="f">tabs</span>([<span class="s">"✍️ Single Text"</span>, <span class="s">"📁 Batch CSV"</span>])
+
+<span class="k">with</span> <span class="b">tab1:</span>
+    <span class="b">text = st.</span><span class="f">text_area</span>(<span class="s">"Enter text to analyze"</span>, height=<span class="num">150</span>,
+                       placeholder=<span class="s">"Type a review, tweet, comment..."</span>)
+    <span class="k">if</span> <span class="b">st.</span><span class="f">button</span>(<span class="s">"Analyze"</span>, type=<span class="s">"primary"</span>) <span class="k">and</span> <span class="b">text:</span>
+        <span class="b">result = classifier(text)[</span><span class="num">0</span><span class="b">]</span>
+        <span class="b">col1, col2 = st.</span><span class="f">columns</span>(<span class="num">2</span>)
+        <span class="b">col1.</span><span class="f">metric</span>(<span class="s">"Sentiment"</span>, <span class="b">result[</span><span class="s">'label'</span><span class="b">]</span>)
+        <span class="b">col2.</span><span class="f">metric</span>(<span class="s">"Confidence"</span>, <span class="k">f</span><span class="s">"{result['score']:.1%}"</span>)
+        
+        <span class="b">color = </span><span class="s">"#22c55e"</span> <span class="k">if</span> <span class="b">result[</span><span class="s">'label'</span><span class="b">] == </span><span class="s">"POSITIVE"</span> <span class="k">else</span> <span class="s">"#ef4444"</span>
+        <span class="b">st.</span><span class="f">progress</span>(<span class="b">result[</span><span class="s">'score'</span><span class="b">]</span>)
+
+<span class="k">with</span> <span class="b">tab2:</span>
+    <span class="b">csv_file = st.</span><span class="f">file_uploader</span>(<span class="s">"Upload CSV with a 'text' column"</span>, type=[<span class="s">"csv"</span>])
+    <span class="k">if</span> <span class="b">csv_file:</span>
+        <span class="b">df = pd.</span><span class="f">read_csv</span>(<span class="b">csv_file</span>)
+        <span class="k">if</span> <span class="s">"text"</span> <span class="k">not in</span> <span class="b">df.columns:</span>
+            <span class="b">st.</span><span class="f">error</span>(<span class="s">"CSV must have a 'text' column."</span>)
+        <span class="k">else</span><span class="b">:</span>
+            <span class="k">with</span> <span class="b">st.</span><span class="f">spinner</span>(<span class="k">f</span><span class="s">"Analyzing {len(df)} rows..."</span>):
+                <span class="b">results = </span><span class="f">classifier</span>(<span class="b">df[</span><span class="s">"text"</span><span class="b">].</span><span class="f">tolist</span>(), truncation=<span class="k">True</span>)
+                <span class="b">df[</span><span class="s">"label"</span><span class="b">]      = [r[</span><span class="s">"label"</span><span class="b">]</span> <span class="k">for</span> <span class="b">r</span> <span class="k">in</span> <span class="b">results]</span>
+                <span class="b">df[</span><span class="s">"confidence"</span><span class="b">] = [r[</span><span class="s">"score"</span><span class="b">]</span>  <span class="k">for</span> <span class="b">r</span> <span class="k">in</span> <span class="b">results]</span>
+            
+            <span class="c"># Summary charts</span>
+            <span class="b">col1, col2 = st.</span><span class="f">columns</span>(<span class="num">2</span>)
+            <span class="k">with</span> <span class="b">col1:</span>
+                <span class="b">fig = px.</span><span class="f">pie</span>(<span class="b">df</span>, names=<span class="s">"label"</span>, title=<span class="s">"Sentiment Split"</span>,
+                            color_discrete_map={<span class="s">"POSITIVE"</span>:<span class="s">"#22c55e"</span>, <span class="s">"NEGATIVE"</span>:<span class="s">"#ef4444"</span>})
+                <span class="b">st.</span><span class="f">plotly_chart</span>(<span class="b">fig</span>, use_container_width=<span class="k">True</span>)
+            <span class="k">with</span> <span class="b">col2:</span>
+                <span class="b">fig2 = px.</span><span class="f">histogram</span>(<span class="b">df</span>, x=<span class="s">"confidence"</span>, color=<span class="s">"label"</span>,
+                                   title=<span class="s">"Confidence Distribution"</span>)
+                <span class="b">st.</span><span class="f">plotly_chart</span>(<span class="b">fig2</span>, use_container_width=<span class="k">True</span>)
+            
+            <span class="b">st.</span><span class="f">dataframe</span>(<span class="b">df</span>)
+            <span class="b">st.</span><span class="f">download_button</span>(<span class="s">"⬇️ Download"</span>, <span class="b">df.</span><span class="f">to_csv</span>(index=<span class="k">False</span>),
+                              <span class="s">"sentiment_results.csv"</span>)</pre>
+      </div>
+    </div>
+
+    <!-- ── CHEAT SHEET ── -->
+    <div class="section" id="s12">
+      <div class="section-header">
+        <span class="section-num">12</span>
+        <h2>Quick Reference Cheat Sheet</h2>
+      </div>
+      <table>
+        <tr><th>Command</th><th>What it does</th><th>Common ML Use</th></tr>
+        <tr><td>st.title()</td><td>Large title text</td><td>App name</td></tr>
+        <tr><td>st.metric()</td><td>KPI card with delta</td><td>Accuracy, F1, loss</td></tr>
+        <tr><td>st.plotly_chart()</td><td>Interactive Plotly figure</td><td>ROC, confusion matrix, feature importance</td></tr>
+        <tr><td>st.dataframe()</td><td>Interactive sortable table</td><td>Predictions, feature sets</td></tr>
+        <tr><td>st.slider()</td><td>Numeric slider</td><td>Threshold, hyperparameters</td></tr>
+        <tr><td>st.selectbox()</td><td>Dropdown</td><td>Model selection, class names</td></tr>
+        <tr><td>st.file_uploader()</td><td>File upload widget</td><td>Images, CSVs for batch inference</td></tr>
+        <tr><td>st.image()</td><td>Display image</td><td>Show input image, grad-CAM</td></tr>
+        <tr><td>st.spinner()</td><td>Loading animation</td><td>While model runs</td></tr>
+        <tr><td>st.progress()</td><td>Progress bar (0.0–1.0)</td><td>Confidence bar</td></tr>
+        <tr><td>st.columns()</td><td>Side-by-side layout</td><td>Input vs. output panels</td></tr>
+        <tr><td>st.tabs()</td><td>Tab navigation</td><td>Results / Metrics / Explain</td></tr>
+        <tr><td>st.expander()</td><td>Collapsible section</td><td>Raw scores, debug info</td></tr>
+        <tr><td>st.download_button()</td><td>File download</td><td>Export predictions</td></tr>
+        <tr><td>@st.cache_resource</td><td>Cache singleton</td><td>Model, tokenizer, connection</td></tr>
+        <tr><td>@st.cache_data</td><td>Cache data (arg-keyed)</td><td>Dataset loading, preprocessing</td></tr>
+        <tr><td>st.session_state</td><td>Persist values across reruns</td><td>History, multi-step flows</td></tr>
+      </table>
+    </div>
+
+    <!-- ── TIPS ── -->
+    <div class="section" id="s13">
+      <div class="section-header">
+        <span class="section-num">13</span>
+        <h2>Tips, Gotchas & Best Practices</h2>
+      </div>
+
+      <h3>🔴 Common Mistakes to Avoid</h3>
+      <div class="callout warn">
+        <span class="icon">⚠️</span>
+        <div><strong>Loading models without caching.</strong> Always use <code>@st.cache_resource</code>. Without it, your 500MB model loads on every slider move.</div>
+      </div>
+      <div class="callout warn">
+        <span class="icon">⚠️</span>
+        <div><strong>Putting <code>st.set_page_config()</code> after other st calls.</strong> It must be the first Streamlit call in the file, full stop.</div>
+      </div>
+      <div class="callout warn">
+        <span class="icon">⚠️</span>
+        <div><strong>Blocking the main thread.</strong> Long inference (>2s) should use <code>st.spinner()</code> so users know work is happening. For very long jobs, look into <code>st.status()</code>.</div>
+      </div>
+
+      <h3>✅ Production-Ready Tips</h3>
+      <div class="callout tip">
+        <span class="icon">💡</span>
+        <div>Use <code>st.session_state</code> to store prediction history across interactions — great for showing "last 5 predictions" or multi-step workflows.</div>
+      </div>
+      <div class="callout tip">
+        <span class="icon">💡</span>
+        <div>Use <code>requirements.txt</code> to pin your dependencies. Streamlit Cloud reads this automatically for deployment.</div>
+      </div>
+      <div class="callout tip">
+        <span class="icon">💡</span>
+        <div>Add a <code>.streamlit/config.toml</code> to customize theme colors, font, and whether the toolbar shows.</div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">.streamlit/config.toml</span><button class="copy-btn" onclick="copyCode(this)">copy</button></div>
+        <pre><span class="b">[theme]
+primaryColor     = </span><span class="s">"#38bdf8"</span>
+<span class="b">backgroundColor  = </span><span class="s">"#0b0f1a"</span>
+<span class="b">secondaryBackgroundColor = </span><span class="s">"#111827"</span>
+<span class="b">textColor        = </span><span class="s">"#e2e8f0"</span>
+
+<span class="b">[server]
+maxUploadSize = </span><span class="num">200</span>   <span class="c"># MB — important for large images</span></pre>
+      </div>
+
+      <h3>🚀 Deployment in 2 Minutes</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">Push your <code>app.py</code> + <code>requirements.txt</code> to a GitHub repo</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">Go to <strong>share.streamlit.io</strong>, connect GitHub, select your repo</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">Click Deploy — your app is live with a shareable public URL in under 2 minutes</div>
+        </div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>Session Progress</span>
+          <span>Complete ✓</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:100%"></div>
+        </div>
+      </div>
+
+      <div class="callout info" style="margin-top:24px">
+        <span class="icon">🎓</span>
+        <div>
+          <strong>What you can build now:</strong> tabular classifiers with interactive feature inputs, image classifiers with drag-and-drop upload, NLP sentiment / text classification apps, batch inference dashboards with download buttons, and model comparison tools.
+          <br/><br/>
+          <strong>Next steps:</strong> Explore <code>st.session_state</code> for stateful apps, <code>st.experimental_fragment</code> for partial reruns, multi-page apps with <code>st.Page</code>, and authentication with <code>st.experimental_user</code>.
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div>
+    <strong>Streamlit for ML Beginners</strong> — Hands-On Workshop<br/>
+    <span style="font-size:12px">Built for practitioners who want to ship, not just prototype.</span>
+  </div>
+  <div style="text-align:right">
+    <a href="https://docs.streamlit.io">docs.streamlit.io</a> ·
+    <a href="https://streamlit.io/gallery">Gallery</a> ·
+    <a href="https://discuss.streamlit.io">Community</a>
+  </div>
+</footer>
+
+<script>
+  // Copy button
+  function copyCode(btn) {
+    const pre = btn.closest('.code-block').querySelector('pre');
+    const text = pre.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'copied!';
+      btn.style.color = '#34d399';
+      setTimeout(() => { btn.textContent = 'copy'; btn.style.color = ''; }, 2000);
+    });
+  }
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('nav.sidebar a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const link = document.querySelector(`nav.sidebar a[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
